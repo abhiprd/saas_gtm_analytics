@@ -18,11 +18,11 @@ from config import (
 
 # Monthly budget allocation structure (Base Spend)
 BASE_MONTHLY_SPEND: Dict[str, float] = {
-    'Paid Search': 50000,
-    'Paid Social': 30000,
-    'Content/SEO': 15000,
-    'Referral': 5000,
-    'Partnership': 10000
+    'Paid Search': 1_500_000,    # High volume, moderate quality
+    'Paid Social': 1_000_000,    # High volume, lower quality  
+    'Content/SEO': 800_000,      # Long-term investment
+    'Referral': 300_000,         # Incentives and programs
+    'Partnership': 400_000       # Co-marketing, integrations
 }
 
 # Seasonal Fluctuations: Defined as a multiplier on the base spend

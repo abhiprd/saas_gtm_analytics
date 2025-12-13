@@ -85,7 +85,8 @@ CHANNEL_ACQUISITION_WEIGHTS = {
     'Partnership': 0.05,
 }
 
-# Channel-specific quality score adjustments
+# Channel-Specific Quality Parameters
+# Different channels attract different quality customers
 CHANNEL_QUALITY_ADJUSTMENTS = {
     'Referral': 0.15,        # +0.15 to base quality (best customers)
     'Content/SEO': 0.08,     # +0.08 (good organic fit)
@@ -94,25 +95,25 @@ CHANNEL_QUALITY_ADJUSTMENTS = {
     'Paid Social': -0.12,    # -0.12 (lowest intent)
 }
 
-# --- 6. Pricing and Plan Configuration ---
+# --- 6. Pricing and Plan Configuration (SMB/Lower Mid-Market) ---
 
 # Define plan structure and seat-based pricing (MRR per seat)
-# This dictates Initial MRR and Expansion MRR
+# Calibrated for SMB and Lower Mid-Market customers
 PRICING_PLANS = {
-    'Basic': {'seat_mrr': 15, 'min_seats': 5, 'max_seats': 50},
-    'Pro': {'seat_mrr': 35, 'min_seats': 10, 'max_seats': 100},
-    'Enterprise': {'seat_mrr': 60, 'min_seats': 20, 'max_seats': 500},
+    'Basic': {'seat_mrr': 10, 'min_seats': 1, 'max_seats': 10},       # $10-100/mo
+    'Pro': {'seat_mrr': 25, 'min_seats': 3, 'max_seats': 25},         # $75-625/mo
+    'Enterprise': {'seat_mrr': 40, 'min_seats': 10, 'max_seats': 50}, # $400-2,000/mo
 }
 
 # Distribution of initial plan choice based on latent quality score quantile
-# High Q accounts favor Pro/Enterprise
+# Shifted heavily toward Basic and Pro for SMB focus
 PLAN_DISTRIBUTION_BY_Q_QUANTILE = {
-    # Q < 0.33 (Low Quality)
-    'low': {'Basic': 0.70, 'Pro': 0.25, 'Enterprise': 0.05},
-    # 0.33 <= Q < 0.66 (Medium Quality)
-    'medium': {'Basic': 0.30, 'Pro': 0.50, 'Enterprise': 0.20},
-    # Q >= 0.66 (High Quality)
-    'high': {'Basic': 0.05, 'Pro': 0.40, 'Enterprise': 0.55},
+    # Q < 0.33 (Low Quality) - mostly small businesses
+    'low': {'Basic': 0.85, 'Pro': 0.13, 'Enterprise': 0.02},
+    # 0.33 <= Q < 0.66 (Medium Quality) - growing SMBs
+    'medium': {'Basic': 0.50, 'Pro': 0.42, 'Enterprise': 0.08},
+    # Q >= 0.66 (High Quality) - lower mid-market
+    'high': {'Basic': 0.20, 'Pro': 0.55, 'Enterprise': 0.25},
 }
 
 # --- 7. Lifecycle Parameters (Churn, Retention, Expansion) ---
@@ -130,7 +131,7 @@ TENURE_DECAY_FACTOR = 0.70  # Churn probability is reduced by 70% after month 3
 
 # PLAN-SPECIFIC CHURN MULTIPLIERS: Enterprise customers churn less
 PLAN_CHURN_MULTIPLIERS = {
-    'Basic': 1.3,      # 30% higher churn
+    'Basic': 1.3,      # 30% higher churn (SMB volatility)
     'Pro': 1.0,        # Baseline
     'Enterprise': 0.6, # 40% lower churn (much stickier)
 }
@@ -147,15 +148,15 @@ EXPANSION_Q_MULTIPLIER = 1.6  # High-Q accounts significantly more likely to exp
 
 # Plan-specific expansion rates (Enterprise expands faster)
 PLAN_EXPANSION_MULTIPLIERS = {
-    'Basic': 0.6,      # 40% less likely to expand
+    'Basic': 0.6,      # 40% less likely to expand (small businesses grow slower)
     'Pro': 1.0,        # Baseline
     'Enterprise': 1.5, # 50% more likely to expand
 }
 
-# Expansion magnitude (additional seats)
-EXPANSION_MAGNITUDE_MEAN_SEATS = 8   # Larger average expansions
-EXPANSION_MAGNITUDE_STD_SEATS = 4
-EXPANSION_MIN_SEATS = 2  # Minimum seats to add in expansion
+# Expansion magnitude (additional seats) - adjusted for SMB
+EXPANSION_MAGNITUDE_MEAN_SEATS = 3   # Smaller expansions for SMB (was 8)
+EXPANSION_MAGNITUDE_STD_SEATS = 2
+EXPANSION_MIN_SEATS = 1  # Minimum seats to add in expansion
 
 # Maximum seat cap per plan (prevents unrealistic growth)
 MAX_SEAT_MULTIPLIER = 3.5  # Can grow to 3.5x initial seats
@@ -165,7 +166,7 @@ MAX_SEAT_MULTIPLIER = 3.5  # Can grow to 3.5x initial seats
 BASE_CONTRACTION_PROBABILITY = 0.012  # 1.2% monthly chance (reduced)
 CONTRACTION_MAGNITUDE_MEAN_PERCENT = 0.15  # Reduce by ~15% of seats (smaller contractions)
 CONTRACTION_MAGNITUDE_STD_PERCENT = 0.08
-MIN_SEATS_AFTER_CONTRACTION = 3  # Don't go below 3 seats
+MIN_SEATS_AFTER_CONTRACTION = 1  # SMB can go down to 1 seat
 
 # Plan downgrade probability (e.g., Enterprise → Pro)
 BASE_DOWNGRADE_PROBABILITY = 0.006  # 0.6% monthly chance (reduced)
@@ -242,7 +243,7 @@ assert len(SEASONAL_CHURN_MULTIPLIERS) == 12, \
 EXPECTED_ANNUAL_CHURN_LOW_Q = 1 - (1 - BASE_CHURN_PROBABILITY * (1 - Q_SCORE_REDUCTION_FACTOR * 0.3) * TENURE_DECAY_FACTOR) ** 12
 EXPECTED_ANNUAL_CHURN_HIGH_Q = 1 - (1 - BASE_CHURN_PROBABILITY * (1 - Q_SCORE_REDUCTION_FACTOR * 0.9) * TENURE_DECAY_FACTOR) ** 12
 
-# Calculate average MRR ranges
+# Calculate average MRR ranges (SMB-focused)
 AVG_BASIC_MRR = PRICING_PLANS['Basic']['seat_mrr'] * \
     (PRICING_PLANS['Basic']['min_seats'] + PRICING_PLANS['Basic']['max_seats']) / 2
 AVG_PRO_MRR = PRICING_PLANS['Pro']['seat_mrr'] * \
@@ -272,6 +273,7 @@ ENABLE_PLAN_SPECIFIC_BEHAVIOR = True
 if __name__ == "__main__":
     print("=" * 60)
     print("SaaS SIMULATION CONFIGURATION SUMMARY")
+    print("SMB / LOWER MID-MARKET FOCUS")
     print("=" * 60)
     print(f"\nEnvironment: {ENV}")
     print(f"\n--- Company Timeline ---")
@@ -287,10 +289,11 @@ if __name__ == "__main__":
     print(f"Expected New Accounts/Month: {EXPECTED_NEW_ACCOUNTS_PER_MONTH:.1f}")
     print(f"Random Seed: {RANDOM_SEED}")
     
-    print(f"\n--- Pricing ---")
+    print(f"\n--- Pricing (SMB/Lower MM) ---")
     print(f"Average Basic MRR: ${AVG_BASIC_MRR:,.0f}")
     print(f"Average Pro MRR: ${AVG_PRO_MRR:,.0f}")
     print(f"Average Enterprise MRR: ${AVG_ENTERPRISE_MRR:,.0f}")
+    print(f"Expected Blended MRR: $400-600")
     
     print(f"\n--- Expected Churn ---")
     print(f"Base Monthly Churn: {BASE_CHURN_PROBABILITY:.1%}")
@@ -301,6 +304,11 @@ if __name__ == "__main__":
     print(f"Base Monthly Expansion Prob: {BASE_EXPANSION_PROBABILITY:.2%}")
     print(f"Expected Monthly Expansion Rate: {EXPECTED_MONTHLY_EXPANSION_RATE:.2%}")
     print(f"Expected Annual NRR: {EXPECTED_ANNUAL_NRR:.1%}")
+    
+    print(f"\n--- Channel Quality Adjustments ---")
+    for channel, adjustment in sorted(CHANNEL_QUALITY_ADJUSTMENTS.items(), key=lambda x: x[1], reverse=True):
+        base_q = QUALITY_SCORE_MEAN + adjustment
+        print(f"{channel}: {adjustment:+.2f} (avg quality: {base_q:.2f})")
     
     print(f"\n--- Data Output ---")
     print(f"Synthetic Data Path: {SYNTHETIC_DATA_PATH}")
