@@ -70,7 +70,8 @@ CHANNEL_CONFIGS = {
         'volume_weight': 0.15,          # 15% of total volume
         'quality_mean': 0.75,            # High average quality
         'quality_std': 0.12,             # Low variance (consistent quality)
-        'cost_per_acquisition': 50,      # Cheapest (organic)
+        'cost_per_acquisition': 800,     # Low CAC (organic referrals)
+        'cac_std': 200,                  # ±$200 variation (25%)
         'touch_frequency': 2.5,          # Fewer touches needed
         'conversion_rate': 0.08,         # 8% conversion rate
         'assists_others': True,          # Often assists other channels
@@ -79,7 +80,8 @@ CHANNEL_CONFIGS = {
         'volume_weight': 0.40,          # 40% of total volume (largest)
         'quality_mean': 0.68,            # Good quality (organic fit)
         'quality_std': 0.15,
-        'cost_per_acquisition': 120,     # Low cost
+        'cost_per_acquisition': 1200,    # Medium CAC
+        'cac_std': 300,                  # ±$300 variation (25%)
         'touch_frequency': 4.0,          # Takes time to nurture
         'conversion_rate': 0.05,         # 5% conversion rate
         'assists_others': True,          # Often first touch
@@ -88,7 +90,8 @@ CHANNEL_CONFIGS = {
         'volume_weight': 0.05,          # 5% of total volume
         'quality_mean': 0.70,            # High quality (aligned partners)
         'quality_std': 0.18,             # More variance
-        'cost_per_acquisition': 200,     # Medium cost
+        'cost_per_acquisition': 1400,    # Medium-high CAC
+        'cac_std': 400,                  # ±$400 variation (29%)
         'touch_frequency': 3.0,
         'conversion_rate': 0.12,         # 12% conversion rate
         'assists_others': False,
@@ -97,7 +100,8 @@ CHANNEL_CONFIGS = {
         'volume_weight': 0.30,          # 30% of total volume
         'quality_mean': 0.60,            # Medium quality (some tire-kickers)
         'quality_std': 0.18,
-        'cost_per_acquisition': 180,     # Medium-high cost
+        'cost_per_acquisition': 1600,    # High CAC
+        'cac_std': 350,                  # ±$350 variation (22%)
         'touch_frequency': 3.5,
         'conversion_rate': 0.06,         # 6% conversion rate
         'assists_others': False,         # Usually last-touch
@@ -106,7 +110,8 @@ CHANNEL_CONFIGS = {
         'volume_weight': 0.10,          # 10% of total volume
         'quality_mean': 0.53,            # Lower quality (low intent)
         'quality_std': 0.20,             # High variance
-        'cost_per_acquisition': 220,     # Most expensive
+        'cost_per_acquisition': 1800,    # Highest CAC (lowest quality customers)
+        'cac_std': 450,                  # ±$450 variation (25%)
         'touch_frequency': 5.0,          # Many touches needed
         'conversion_rate': 0.03,         # 3% conversion rate
         'assists_others': True,          # Often awareness/first touch
@@ -115,7 +120,7 @@ CHANNEL_CONFIGS = {
 
 # Marketing spend allocation (monthly budget)
 # This will be used to generate realistic spend data
-MONTHLY_MARKETING_BUDGET = 100000  # $100k/month base budget
+MONTHLY_MARKETING_BUDGET = 2500000  # $2.5M/month base budget (~$30M/year)
 
 CHANNEL_BUDGET_ALLOCATION = {
     'Content/SEO': 0.25,      # $25k/month (includes content creation, SEO tools)
