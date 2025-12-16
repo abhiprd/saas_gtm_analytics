@@ -1,4 +1,4 @@
-# src/config.py
+# src/config.py - IMPROVED VERSION WITH REALISTIC MARKETING ATTRIBUTION
 
 import os
 from datetime import date
@@ -50,24 +50,8 @@ WARMUP_LENGTH_MONTHS = (SIM_START_DATE.year - COMPANY_START_DATE.year) * 12 + (S
 
 RANDOM_SEED = 42  # Set to None for true randomness
 
-# --- 5. Account Generation Parameters (Configuring the Accounts Table) ---
-
-# Customer acquisition pacing for established company
-# Distribution of when accounts are acquired
-ACQUISITION_DISTRIBUTION = {
-    'pre_existing': INITIAL_CUSTOMER_BASE / TOTAL_ACCOUNTS,  # Existed before SIM_START_DATE
-    'simulation_period': (TOTAL_ACCOUNTS - INITIAL_CUSTOMER_BASE) / TOTAL_ACCOUNTS  # Acquired during simulation
-}
-
-# Monthly acquisition rate (for new customers during simulation period)
-NEW_ACCOUNTS_DURING_SIM = TOTAL_ACCOUNTS - INITIAL_CUSTOMER_BASE
-BASE_MONTHLY_ACQUISITION_RATE = NEW_ACCOUNTS_DURING_SIM / SIM_LENGTH_MONTHS
-
-# Distribution of the Latent Quality Score (used in numpy.random.normal)
-# This score influences initial deal size, expansion, and churn.
-QUALITY_SCORE_MEAN = 0.65
-QUALITY_SCORE_STD = 0.15
-QUALITY_SCORE_CAP = 1.0  # Max score
+# Quality score constraints (for backward compatibility)
+QUALITY_SCORE_CAP = 1.0  # Maximum quality score allowed
 
 # Define Q-score quantile thresholds
 Q_QUANTILE_THRESHOLDS = {
@@ -76,26 +60,114 @@ Q_QUANTILE_THRESHOLDS = {
     'high': (0.66, 1.0),
 }
 
-# Account acquisition distribution (weights for each channel)
-CHANNEL_ACQUISITION_WEIGHTS = {
-    'Paid Search': 0.30,
-    'Content/SEO': 0.40,
-    'Referral': 0.15,
-    'Paid Social': 0.10,
-    'Partnership': 0.05,
+# --- 5. IMPROVED: Channel Configuration with Quality Dependencies ---
+
+# KEY CHANGE: Channels now have INHERENT quality distributions
+# This creates realistic dependencies between channel and customer quality/LTV
+
+CHANNEL_CONFIGS = {
+    'Referral': {
+        'volume_weight': 0.15,          # 15% of total volume
+        'quality_mean': 0.75,            # High average quality
+        'quality_std': 0.12,             # Low variance (consistent quality)
+        'cost_per_acquisition': 50,      # Cheapest (organic)
+        'touch_frequency': 2.5,          # Fewer touches needed
+        'conversion_rate': 0.08,         # 8% conversion rate
+        'assists_others': True,          # Often assists other channels
+    },
+    'Content/SEO': {
+        'volume_weight': 0.40,          # 40% of total volume (largest)
+        'quality_mean': 0.68,            # Good quality (organic fit)
+        'quality_std': 0.15,
+        'cost_per_acquisition': 120,     # Low cost
+        'touch_frequency': 4.0,          # Takes time to nurture
+        'conversion_rate': 0.05,         # 5% conversion rate
+        'assists_others': True,          # Often first touch
+    },
+    'Partnership': {
+        'volume_weight': 0.05,          # 5% of total volume
+        'quality_mean': 0.70,            # High quality (aligned partners)
+        'quality_std': 0.18,             # More variance
+        'cost_per_acquisition': 200,     # Medium cost
+        'touch_frequency': 3.0,
+        'conversion_rate': 0.12,         # 12% conversion rate
+        'assists_others': False,
+    },
+    'Paid Search': {
+        'volume_weight': 0.30,          # 30% of total volume
+        'quality_mean': 0.60,            # Medium quality (some tire-kickers)
+        'quality_std': 0.18,
+        'cost_per_acquisition': 180,     # Medium-high cost
+        'touch_frequency': 3.5,
+        'conversion_rate': 0.06,         # 6% conversion rate
+        'assists_others': False,         # Usually last-touch
+    },
+    'Paid Social': {
+        'volume_weight': 0.10,          # 10% of total volume
+        'quality_mean': 0.53,            # Lower quality (low intent)
+        'quality_std': 0.20,             # High variance
+        'cost_per_acquisition': 220,     # Most expensive
+        'touch_frequency': 5.0,          # Many touches needed
+        'conversion_rate': 0.03,         # 3% conversion rate
+        'assists_others': True,          # Often awareness/first touch
+    },
 }
 
-# Channel-Specific Quality Parameters
-# Different channels attract different quality customers
-CHANNEL_QUALITY_ADJUSTMENTS = {
-    'Referral': 0.15,        # +0.15 to base quality (best customers)
-    'Content/SEO': 0.08,     # +0.08 (good organic fit)
-    'Partnership': 0.05,     # +0.05 (aligned partners)
-    'Paid Search': -0.05,    # -0.05 (some tire-kickers)
-    'Paid Social': -0.12,    # -0.12 (lowest intent)
+# Marketing spend allocation (monthly budget)
+# This will be used to generate realistic spend data
+MONTHLY_MARKETING_BUDGET = 100000  # $100k/month base budget
+
+CHANNEL_BUDGET_ALLOCATION = {
+    'Content/SEO': 0.25,      # $25k/month (includes content creation, SEO tools)
+    'Paid Search': 0.35,      # $35k/month (largest paid spend)
+    'Paid Social': 0.20,      # $20k/month
+    'Partnership': 0.10,      # $10k/month (co-marketing, partnerships)
+    'Referral': 0.10,         # $10k/month (referral incentives, nurture)
 }
 
-# --- 6. Pricing and Plan Configuration (SMB/Lower Mid-Market) ---
+# Budget growth rate (year-over-year)
+ANNUAL_BUDGET_GROWTH_RATE = 0.15  # 15% YoY growth
+
+# --- 6. IMPROVED: Attribution Touch Generation ---
+
+# Multi-touch journey configuration
+# Customers typically have multiple touchpoints before converting
+
+# Average number of touches before conversion (by channel)
+AVG_TOUCHES_BEFORE_CONVERSION = {
+    'Referral': 2,           # Quick conversion (trust)
+    'Content/SEO': 4,        # Longer nurture cycle
+    'Partnership': 3,        # Medium cycle
+    'Paid Search': 3,        # Medium (high intent)
+    'Paid Social': 5,        # Longest cycle (awareness building)
+}
+
+# Touch sequence patterns (realistic customer journeys)
+# Format: (first_touch_channel, middle_channels, last_touch_channel, probability)
+COMMON_JOURNEY_PATTERNS = [
+    # High-quality journeys (organic → conversion)
+    (['Paid Social', 'Content/SEO'], ['Content/SEO'], ['Referral'], 0.08),      # Social awareness → Content → Referral
+    (['Content/SEO'], ['Content/SEO'], ['Content/SEO'], 0.15),                  # Pure organic (best quality)
+    (['Content/SEO'], ['Paid Search'], ['Paid Search'], 0.12),                  # Content → Search (high intent)
+    (['Partnership'], ['Content/SEO'], ['Partnership'], 0.03),                   # Partner-driven
+    
+    # Medium-quality journeys
+    (['Paid Social'], ['Content/SEO', 'Paid Search'], ['Paid Search'], 0.18),   # Social → mixed → Search
+    (['Paid Search'], ['Content/SEO'], ['Paid Search'], 0.15),                  # Search → Content → Search
+    (['Content/SEO'], ['Paid Social'], ['Paid Search'], 0.08),                  # Content → Social → Search
+    
+    # Lower-quality journeys (paid-heavy)
+    (['Paid Social'], ['Paid Social'], ['Paid Social'], 0.08),                  # Pure paid social
+    (['Paid Search'], [], ['Paid Search'], 0.10),                               # Quick paid search (impulse)
+    (['Paid Social'], ['Paid Search'], ['Paid Search'], 0.03),                  # Social → Search
+]
+
+# Time between touches (days)
+MIN_DAYS_BETWEEN_TOUCHES = 1
+MAX_DAYS_BETWEEN_TOUCHES = 30
+AVG_DAYS_BETWEEN_TOUCHES = 7
+
+# --- 7. Pricing and Plan Configuration (SMB/Lower Mid-Market) ---
 
 # Define plan structure and seat-based pricing (MRR per seat)
 # Calibrated for SMB and Lower Mid-Market customers
@@ -106,7 +178,7 @@ PRICING_PLANS = {
 }
 
 # Distribution of initial plan choice based on latent quality score quantile
-# Shifted heavily toward Basic and Pro for SMB focus
+# NOW THIS MAKES SENSE: Higher quality customers from better channels → higher plans
 PLAN_DISTRIBUTION_BY_Q_QUANTILE = {
     # Q < 0.33 (Low Quality) - mostly small businesses
     'low': {'Basic': 0.85, 'Pro': 0.13, 'Enterprise': 0.02},
@@ -116,7 +188,7 @@ PLAN_DISTRIBUTION_BY_Q_QUANTILE = {
     'high': {'Basic': 0.20, 'Pro': 0.55, 'Enterprise': 0.25},
 }
 
-# --- 7. Lifecycle Parameters (Churn, Retention, Expansion) ---
+# --- 8. Lifecycle Parameters (Churn, Retention, Expansion) ---
 
 # BASE CHURN RATE: Monthly base churn probability for an average account (low Q, low tenure)
 BASE_CHURN_PROBABILITY = 0.025  # 2.5% monthly (~26% annual) - HEALTHY
@@ -154,7 +226,7 @@ PLAN_EXPANSION_MULTIPLIERS = {
 }
 
 # Expansion magnitude (additional seats) - adjusted for SMB
-EXPANSION_MAGNITUDE_MEAN_SEATS = 3   # Smaller expansions for SMB (was 8)
+EXPANSION_MAGNITUDE_MEAN_SEATS = 3   # Smaller expansions for SMB
 EXPANSION_MAGNITUDE_STD_SEATS = 2
 EXPANSION_MIN_SEATS = 1  # Minimum seats to add in expansion
 
@@ -164,7 +236,7 @@ MAX_SEAT_MULTIPLIER = 3.5  # Can grow to 3.5x initial seats
 # CONTRACTION/DOWNGRADE PARAMETERS
 # Probability of seat reduction (not full churn)
 BASE_CONTRACTION_PROBABILITY = 0.012  # 1.2% monthly chance (reduced)
-CONTRACTION_MAGNITUDE_MEAN_PERCENT = 0.15  # Reduce by ~15% of seats (smaller contractions)
+CONTRACTION_MAGNITUDE_MEAN_PERCENT = 0.15  # Reduce by ~15% of seats
 CONTRACTION_MAGNITUDE_STD_PERCENT = 0.08
 MIN_SEATS_AFTER_CONTRACTION = 1  # SMB can go down to 1 seat
 
@@ -172,7 +244,7 @@ MIN_SEATS_AFTER_CONTRACTION = 1  # SMB can go down to 1 seat
 BASE_DOWNGRADE_PROBABILITY = 0.006  # 0.6% monthly chance (reduced)
 DOWNGRADE_Q_THRESHOLD = 0.4  # Only low-Q accounts are likely to downgrade
 
-# --- 8. Seasonal Effects ---
+# --- 9. Seasonal Effects ---
 
 # Seasonal multipliers for acquisition (by month, 1-12)
 # Q4 typically sees higher acquisition
@@ -208,24 +280,29 @@ SEASONAL_CHURN_MULTIPLIERS = {
     12: 1.15, # December (year-end cuts)
 }
 
-# --- 9. Output Configuration ---
+# --- 10. Output Configuration ---
 
 # File names for generated data
-ACCOUNTS_FILE = 'accounts.csv'
-TRANSACTIONS_FILE = 'transactions.csv'
-MONTHLY_METRICS_FILE = 'monthly_metrics.csv'
-COHORT_ANALYSIS_FILE = 'cohort_analysis.csv'
+ACCOUNTS_FILE = '01_accounts.csv'
+SUB_REVENUE_FILE = '02_sub_revenue_monthly.csv'
+ATTRIBUTION_TOUCHES_FILE = '03_attribution_touches.csv'
+MARKETING_SPEND_FILE = '04_marketing_spend.csv'
 
 # Logging
 LOG_LEVEL = 'INFO'  # DEBUG, INFO, WARNING, ERROR
 LOG_FILE = os.path.join(LOG_PATH, 'simulation.log')
 
-# --- 10. Validation & Derived Metrics ---
+# --- 11. Validation & Derived Metrics ---
 
 # Validate channel weights sum to 1.0
-_channel_sum = sum(CHANNEL_ACQUISITION_WEIGHTS.values())
+_channel_sum = sum(cfg['volume_weight'] for cfg in CHANNEL_CONFIGS.values())
 assert abs(_channel_sum - 1.0) < 0.001, \
-    f"Channel acquisition weights must sum to 1.0 (got {_channel_sum})"
+    f"Channel volume weights must sum to 1.0 (got {_channel_sum})"
+
+# Validate budget allocation
+_budget_sum = sum(CHANNEL_BUDGET_ALLOCATION.values())
+assert abs(_budget_sum - 1.0) < 0.001, \
+    f"Channel budget allocation must sum to 1.0 (got {_budget_sum})"
 
 # Validate plan distributions
 for segment, dist in PLAN_DISTRIBUTION_BY_Q_QUANTILE.items():
@@ -239,11 +316,16 @@ assert len(SEASONAL_ACQUISITION_MULTIPLIERS) == 12, \
 assert len(SEASONAL_CHURN_MULTIPLIERS) == 12, \
     "Must have 12 months of seasonal churn multipliers"
 
-# Calculate expected annual churn for reporting
+# Validate journey patterns
+_journey_sum = sum(prob for _, _, _, prob in COMMON_JOURNEY_PATTERNS)
+assert abs(_journey_sum - 1.0) < 0.001, \
+    f"Journey pattern probabilities must sum to 1.0 (got {_journey_sum})"
+
+# Calculate expected metrics
 EXPECTED_ANNUAL_CHURN_LOW_Q = 1 - (1 - BASE_CHURN_PROBABILITY * (1 - Q_SCORE_REDUCTION_FACTOR * 0.3) * TENURE_DECAY_FACTOR) ** 12
 EXPECTED_ANNUAL_CHURN_HIGH_Q = 1 - (1 - BASE_CHURN_PROBABILITY * (1 - Q_SCORE_REDUCTION_FACTOR * 0.9) * TENURE_DECAY_FACTOR) ** 12
 
-# Calculate average MRR ranges (SMB-focused)
+# Calculate average MRR ranges
 AVG_BASIC_MRR = PRICING_PLANS['Basic']['seat_mrr'] * \
     (PRICING_PLANS['Basic']['min_seats'] + PRICING_PLANS['Basic']['max_seats']) / 2
 AVG_PRO_MRR = PRICING_PLANS['Pro']['seat_mrr'] * \
@@ -251,67 +333,100 @@ AVG_PRO_MRR = PRICING_PLANS['Pro']['seat_mrr'] * \
 AVG_ENTERPRISE_MRR = PRICING_PLANS['Enterprise']['seat_mrr'] * \
     (PRICING_PLANS['Enterprise']['min_seats'] + PRICING_PLANS['Enterprise']['max_seats']) / 2
 
-# Calculate expected NRR components
-EXPECTED_MONTHLY_EXPANSION_RATE = BASE_EXPANSION_PROBABILITY * 1.2  # Weighted by Q-score distribution
-EXPECTED_MONTHLY_CONTRACTION_RATE = BASE_CONTRACTION_PROBABILITY
-EXPECTED_ANNUAL_NRR = (1 + EXPECTED_MONTHLY_EXPANSION_RATE - EXPECTED_MONTHLY_CONTRACTION_RATE - BASE_CHURN_PROBABILITY * 0.5) ** 12
+# Calculate expected channel ROI (simple)
+EXPECTED_CHANNEL_ROI = {}
+for channel, config in CHANNEL_CONFIGS.items():
+    # Estimate LTV based on quality and plan distribution
+    avg_quality = config['quality_mean']
+    if avg_quality >= 0.66:
+        avg_mrr = AVG_PRO_MRR * 0.6 + AVG_ENTERPRISE_MRR * 0.3 + AVG_BASIC_MRR * 0.1
+    elif avg_quality >= 0.50:
+        avg_mrr = AVG_PRO_MRR * 0.5 + AVG_BASIC_MRR * 0.4 + AVG_ENTERPRISE_MRR * 0.1
+    else:
+        avg_mrr = AVG_BASIC_MRR * 0.7 + AVG_PRO_MRR * 0.25 + AVG_ENTERPRISE_MRR * 0.05
+    
+    # Estimate lifetime (18-36 months based on quality)
+    avg_lifetime_months = 18 + (avg_quality - 0.5) * 36
+    estimated_ltv = avg_mrr * avg_lifetime_months
+    
+    cac = config['cost_per_acquisition']
+    roi = (estimated_ltv / cac) if cac > 0 else 0
+    
+    EXPECTED_CHANNEL_ROI[channel] = {
+        'CAC': cac,
+        'estimated_LTV': estimated_ltv,
+        'LTV_CAC_ratio': roi,
+        'quality': avg_quality
+    }
 
 # Acquisition pacing summary
+NEW_ACCOUNTS_DURING_SIM = TOTAL_ACCOUNTS - INITIAL_CUSTOMER_BASE
+BASE_MONTHLY_ACQUISITION_RATE = NEW_ACCOUNTS_DURING_SIM / SIM_LENGTH_MONTHS
 EXPECTED_NEW_ACCOUNTS_PER_MONTH = BASE_MONTHLY_ACQUISITION_RATE
-EXPECTED_TOTAL_NEW_ACCOUNTS = NEW_ACCOUNTS_DURING_SIM
 
-# --- 11. Feature Flags ---
+# --- 12. Feature Flags ---
 
 # Enable/disable specific simulation features
 ENABLE_DOWNGRADES = True
 ENABLE_CONTRACTIONS = True
 ENABLE_SEASONAL_EFFECTS = True
 ENABLE_PLAN_SPECIFIC_BEHAVIOR = True
+ENABLE_MULTI_TOUCH_ATTRIBUTION = True  # NEW: Enable realistic multi-touch journeys
 
-# --- 12. Summary Statistics (for reference) ---
+# --- 13. Summary Statistics (for reference) ---
 
 if __name__ == "__main__":
-    print("=" * 60)
+    print("=" * 80)
     print("SaaS SIMULATION CONFIGURATION SUMMARY")
-    print("SMB / LOWER MID-MARKET FOCUS")
-    print("=" * 60)
+    print("IMPROVED: REALISTIC MARKETING ATTRIBUTION")
+    print("=" * 80)
     print(f"\nEnvironment: {ENV}")
     print(f"\n--- Company Timeline ---")
     print(f"Company Start Date: {COMPANY_START_DATE}")
     print(f"Analysis Period: {SIM_START_DATE} to {SIM_END_DATE}")
     print(f"Simulation Length: {SIM_LENGTH_MONTHS} months")
-    print(f"Warm-up Period: {WARMUP_LENGTH_MONTHS} months")
     
     print(f"\n--- Customer Base ---")
-    print(f"Pre-existing Customers (Day 1): {INITIAL_CUSTOMER_BASE:,}")
+    print(f"Pre-existing Customers: {INITIAL_CUSTOMER_BASE:,}")
     print(f"New Customers During Sim: {NEW_ACCOUNTS_DURING_SIM:,}")
     print(f"Total Accounts: {TOTAL_ACCOUNTS:,}")
-    print(f"Expected New Accounts/Month: {EXPECTED_NEW_ACCOUNTS_PER_MONTH:.1f}")
     print(f"Random Seed: {RANDOM_SEED}")
+    
+    print(f"\n--- Marketing Channels (with Quality Dependencies) ---")
+    print(f"{'Channel':<20} {'Volume':<10} {'Qual Mean':<12} {'CAC':<10} {'Conv Rate':<12}")
+    print("-" * 80)
+    for channel, config in sorted(CHANNEL_CONFIGS.items(), key=lambda x: x[1]['quality_mean'], reverse=True):
+        print(f"{channel:<20} {config['volume_weight']*100:>6.1f}%    "
+              f"{config['quality_mean']:>6.2f}        "
+              f"${config['cost_per_acquisition']:>6.0f}    "
+              f"{config['conversion_rate']*100:>6.1f}%")
+    
+    print(f"\n--- Expected Channel ROI ---")
+    print(f"{'Channel':<20} {'CAC':<10} {'Est LTV':<12} {'LTV:CAC':<10}")
+    print("-" * 80)
+    for channel, metrics in sorted(EXPECTED_CHANNEL_ROI.items(), key=lambda x: x[1]['LTV_CAC_ratio'], reverse=True):
+        print(f"{channel:<20} ${metrics['CAC']:<9.0f} "
+              f"${metrics['estimated_LTV']:<11,.0f} "
+              f"{metrics['LTV_CAC_ratio']:<9.1f}x")
+    
+    print(f"\n--- Monthly Marketing Budget ---")
+    print(f"Base Budget: ${MONTHLY_MARKETING_BUDGET:,}")
+    print(f"{'Channel':<20} {'Allocation':<12} {'Monthly Spend':<15}")
+    print("-" * 80)
+    for channel, allocation in sorted(CHANNEL_BUDGET_ALLOCATION.items(), key=lambda x: x[1], reverse=True):
+        monthly_spend = MONTHLY_MARKETING_BUDGET * allocation
+        print(f"{channel:<20} {allocation*100:>6.1f}%       ${monthly_spend:>12,.0f}")
     
     print(f"\n--- Pricing (SMB/Lower MM) ---")
     print(f"Average Basic MRR: ${AVG_BASIC_MRR:,.0f}")
     print(f"Average Pro MRR: ${AVG_PRO_MRR:,.0f}")
     print(f"Average Enterprise MRR: ${AVG_ENTERPRISE_MRR:,.0f}")
-    print(f"Expected Blended MRR: $400-600")
-    
-    print(f"\n--- Expected Churn ---")
-    print(f"Base Monthly Churn: {BASE_CHURN_PROBABILITY:.1%}")
-    print(f"Expected Annual Churn (Low-Q): {EXPECTED_ANNUAL_CHURN_LOW_Q:.1%}")
-    print(f"Expected Annual Churn (High-Q): {EXPECTED_ANNUAL_CHURN_HIGH_Q:.1%}")
-    
-    print(f"\n--- Expected Growth ---")
-    print(f"Base Monthly Expansion Prob: {BASE_EXPANSION_PROBABILITY:.2%}")
-    print(f"Expected Monthly Expansion Rate: {EXPECTED_MONTHLY_EXPANSION_RATE:.2%}")
-    print(f"Expected Annual NRR: {EXPECTED_ANNUAL_NRR:.1%}")
-    
-    print(f"\n--- Channel Quality Adjustments ---")
-    for channel, adjustment in sorted(CHANNEL_QUALITY_ADJUSTMENTS.items(), key=lambda x: x[1], reverse=True):
-        base_q = QUALITY_SCORE_MEAN + adjustment
-        print(f"{channel}: {adjustment:+.2f} (avg quality: {base_q:.2f})")
     
     print(f"\n--- Data Output ---")
     print(f"Synthetic Data Path: {SYNTHETIC_DATA_PATH}")
-    print(f"Log File: {LOG_FILE}")
+    print(f"Files: {ACCOUNTS_FILE}, {ATTRIBUTION_TOUCHES_FILE}, {MARKETING_SPEND_FILE}")
     
-    print("\n" + "=" * 60)
+    print("\n" + "=" * 80)
+    print("KEY IMPROVEMENT: Channels now have INHERENT quality distributions")
+    print("This creates realistic dependencies for MMM/MTA analysis!")
+    print("=" * 80 + "\n")

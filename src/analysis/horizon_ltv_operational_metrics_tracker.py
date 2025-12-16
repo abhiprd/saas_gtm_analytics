@@ -50,7 +50,7 @@ def calculate_operational_metrics():
     print("="*80)
     
     # Group customers by acquisition month
-    accounts_df['cohort_month'] = accounts_df['acquisition_date'].dt.to_period('M')
+    accounts_df['cohort_month'] = pd.DatetimeIndex(accounts_df['acquisition_date']).to_period('M')
     
     # For each cohort, calculate early metrics
     cohort_metrics = []
@@ -123,7 +123,8 @@ def calculate_operational_metrics():
     print("="*80)
     
     # Calculate monthly channel metrics
-    accounts_df['acq_month'] = accounts_df['acquisition_date'].dt.to_period('M')
+    # Use PeriodIndex to avoid accessing .dt.to_period on the Properties object
+    accounts_df['acq_month'] = pd.PeriodIndex(accounts_df['acquisition_date'], freq='M')
     
     # Get last 6 months
     all_months = sorted(accounts_df['acq_month'].unique())

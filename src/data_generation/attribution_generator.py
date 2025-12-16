@@ -1,4 +1,5 @@
 # src/data_generation/attribution_generator.py
+# UPDATED VERSION: Now uses realistic journey patterns from CHANNEL_CONFIGS
 
 import pandas as pd
 import numpy as np
@@ -6,151 +7,202 @@ import uuid
 from datetime import timedelta
 from typing import Dict, List, Tuple
 
-# Import configuration constants (we will extend config.py later)
-from config import SIM_START_DATE, TOTAL_ACCOUNTS
-
-# --- NEW CONFIG PARAMETERS (to be added to config.py later) ---
-
-# Define the Markov Transition Matrix for B2B paths
-# Keys are the source states, values are dictionaries of target states and probabilities
-CHANNEL_TRANSITION_MATRIX: Dict[str, Dict[str, float]] = {
-    'Start': {
-        'Paid Search': 0.3, 'Paid Social': 0.2, 'Content/SEO': 0.4, 'Referral': 0.1
-    },
-    'Paid Search': {
-        'Content/SEO': 0.5, 'Demo Request': 0.2, 'Exit': 0.3
-    },
-    'Paid Social': {
-        'Content/SEO': 0.4, 'Referral': 0.2, 'Exit': 0.4
-    },
-    'Content/SEO': {
-        'Paid Search': 0.3, 'Demo Request': 0.5, 'Exit': 0.2
-    },
-    'Referral': {
-        'Demo Request': 0.7, 'Exit': 0.3
-    },
-    'Demo Request': {
-        'Conversion': 1.0 # Conversion is the final step
-    }
-}
-
-# Average path length and its relation to Latent Quality Score (Q)
-# Low Q accounts need more touches (longer paths)
-AVG_PATH_LENGTH = 4
-Q_SCORE_PATH_VARIATION_FACTOR = 0.5 # Q-score reduces path length by up to 50%
-
-# --- FUNCTION IMPLEMENTATION ---
+# Import configuration constants
+from config import (
+    SIM_START_DATE, 
+    TOTAL_ACCOUNTS,
+    CHANNEL_CONFIGS,
+    COMMON_JOURNEY_PATTERNS,  # ✅ NEW: Realistic journey patterns
+    AVG_TOUCHES_BEFORE_CONVERSION,
+    MIN_DAYS_BETWEEN_TOUCHES,
+    MAX_DAYS_BETWEEN_TOUCHES,
+    AVG_DAYS_BETWEEN_TOUCHES,
+)
 
 def generate_attribution_touches(accounts_df: pd.DataFrame) -> pd.DataFrame:
     """
-    Generates a sequence of multi-touch marketing events for each acquired account,
-    using a probabilistic path model tied to the account's Latent Quality Score (Q).
+    Generates realistic multi-touch marketing journeys for each acquired account.
+    
+    KEY IMPROVEMENTS:
+    1. Uses predefined COMMON_JOURNEY_PATTERNS for realistic paths
+    2. Journey complexity correlates with quality score
+    3. Time between touches is realistic (1-30 days)
+    4. Different channels have different typical journeys
     """
     all_touches: List[Dict] = []
     
     print(f"Generating marketing touchpaths for {len(accounts_df)} accounts...")
+    print(f"Using {len(COMMON_JOURNEY_PATTERNS)} realistic journey patterns...\n")
 
-    for index, account in accounts_df.iterrows():
+    for acct_idx, (_, account) in enumerate(accounts_df.iterrows()):
         account_id = account['account_id']
         acq_date = account['acquisition_date']
         q_score = account['latent_quality_score']
+        acquisition_channel = account['acquisition_channel']
         
-        # 1. Determine Path Length based on Q Score
-        # Max path length is AVG_PATH_LENGTH * 2. Lower Q = longer path.
-        max_possible_touches = int(AVG_PATH_LENGTH + (AVG_PATH_LENGTH * Q_SCORE_PATH_VARIATION_FACTOR) * (1 - q_score))
+        # --- 1. Select a Journey Pattern ---
+        # Select pattern based on probabilities
+        pattern_probs = [p[3] for p in COMMON_JOURNEY_PATTERNS]
+        selected_idx = np.random.choice(len(COMMON_JOURNEY_PATTERNS), p=pattern_probs)
+        first_channels, middle_channels, last_channel, _ = COMMON_JOURNEY_PATTERNS[selected_idx]
         
-        # Randomly choose an actual path length (e.g., Poisson distribution)
-        # Low Q (1-q_score is high) leads to a higher mean for the Poisson distribution.
-        touch_count = np.random.poisson(max_possible_touches - 2) + 2 # Ensure min 2 touches
+        # --- 2. Build the Touch Sequence ---
+        touch_sequence = []
         
-        # 2. Simulate the Markov Path
-        current_state = 'Start'
-        path_sequence: List[str] = []
+        # First touch (could be multiple options)
+        if isinstance(first_channels, list):
+            first_channel = np.random.choice(first_channels)
+        else:
+            first_channel = first_channels
+        touch_sequence.append(first_channel)
         
-        for _ in range(touch_count):
-            if current_state == 'Conversion' or current_state == 'Exit':
-                break
-                
-            # Get next state probabilities from the transition matrix
-            transitions = CHANNEL_TRANSITION_MATRIX.get(current_state)
+        # Middle touches (if any)
+        if middle_channels:
+            # Number of middle touches varies by quality
+            # Lower quality → more touches needed
+            base_middle_touches = len(middle_channels) if isinstance(middle_channels, list) else 1
             
-            if not transitions:
-                break
+            # High quality customers need fewer touches
+            quality_factor = 1.5 - q_score  # Range: 0.5 to 1.5
+            num_middle = int(base_middle_touches * quality_factor)
+            num_middle = max(0, min(num_middle, len(middle_channels) * 2 if isinstance(middle_channels, list) else 2))
             
-            next_states, probs = zip(*transitions.items())
+            # Sample middle touches (with replacement to allow repetition)
+            for _ in range(num_middle):
+                if isinstance(middle_channels, list):
+                    middle_channel = np.random.choice(middle_channels)
+                else:
+                    middle_channel = middle_channels
+                touch_sequence.append(middle_channel)
+        
+        # Last touch (conversion channel)
+        if isinstance(last_channel, list):
+            last_channel = np.random.choice(last_channel)
+        touch_sequence.append(last_channel)
+        
+        # --- 3. Generate Timestamps (Working Backwards from Conversion) ---
+        num_touches = len(touch_sequence)
+        touch_timestamps = []
+        
+        # Start from acquisition date and work backwards
+        current_date = pd.to_datetime(acq_date)
+        touch_timestamps.append(current_date)  # Last touch = acquisition date
+        
+        # Generate gaps between touches (in days)
+        # Higher quality customers have shorter sales cycles
+        avg_gap = AVG_DAYS_BETWEEN_TOUCHES * (1.5 - q_score)  # 3-10 days typically
+        
+        for i in range(num_touches - 1):
+            # Generate gap with some randomness
+            gap_days = int(np.random.uniform(
+                MIN_DAYS_BETWEEN_TOUCHES,
+                min(MAX_DAYS_BETWEEN_TOUCHES, avg_gap * 1.5)
+            ))
             
-            # Select the next state based on probabilities
-            current_state = np.random.choice(next_states, p=probs)
-            
-            if current_state != 'Exit':
-                path_sequence.append(current_state)
-            
-        # Ensure the final touch is the Conversion (simulated via the 'Demo Request' path)
-        final_touch = 'Conversion' 
-        if path_sequence and path_sequence[-1] != 'Demo Request' and final_touch not in path_sequence:
-            path_sequence.append('Demo Request') # Simulating the final pre-conversion step
+            # Move backwards in time
+            current_date = current_date - timedelta(days=gap_days)
+            touch_timestamps.append(current_date)
         
-        # 3. Assign Timestamps (Decay/Clustering Logic)
-        
-        # Total touches recorded
-        num_touches = len(path_sequence)
-        
-        # Generate time gaps (delta seconds) using an exponential decay distribution.
-        # Gaps should be smaller closer to the acquisition date (high activity/intent)
-        # High Q accounts convert faster, so their time gaps should be shorter overall.
-        time_scale_factor = (1 / q_score) * 12 * 3600 # Factor scales up the time gap for low Q
-        
-        # Generate N-1 gaps for N touches
-        gaps_seconds = np.random.exponential(scale=time_scale_factor, size=num_touches - 1)
-        
-        # Timestamps are generated BACKWARDS from the acquisition date
-        touch_timestamps: List[pd.Timestamp] = [pd.to_datetime(acq_date)] 
-        
-        cumulative_gap = 0
-        for gap in gaps_seconds:
-            cumulative_gap += gap
-            # Timestamp is Acq_Date minus the cumulative gap
-            touch_time = pd.to_datetime(acq_date) - timedelta(seconds=cumulative_gap)
-            touch_timestamps.append(touch_time)
-            
-        # Reverse the list to have them in chronological order (oldest first)
+        # Reverse to get chronological order
         touch_timestamps.reverse()
         
-        # 4. Compile Touches for the Account
-        for i, channel in enumerate(path_sequence):
-            touch_type = 'click' if channel in ['Paid Search', 'Paid Social', 'Demo Request'] else 'view'
+        # Ensure first touch is not before simulation start
+        if touch_timestamps[0] < pd.to_datetime(SIM_START_DATE):
+            # Adjust all timestamps forward
+            adjustment = (pd.to_datetime(SIM_START_DATE) - touch_timestamps[0]).days
+            touch_timestamps = [ts + timedelta(days=adjustment) for ts in touch_timestamps]
+        
+        # --- 4. Create Touch Records ---
+        for i, (channel, timestamp) in enumerate(zip(touch_sequence, touch_timestamps)):
+            # Determine touch type based on channel
+            channel_config = CHANNEL_CONFIGS.get(channel, {})
+            
+            # Paid channels typically have 'click', organic have 'view'
+            if 'Paid' in channel:
+                touch_type = 'click'
+            elif channel in ['Content/SEO', 'Referral']:
+                touch_type = 'view'
+            else:
+                touch_type = 'engagement'
             
             all_touches.append({
                 'touch_id': str(uuid.uuid4()),
                 'account_id': account_id,
                 'channel': channel,
-                'touch_timestamp': touch_timestamps[i],
+                'touch_timestamp': timestamp,
                 'touch_type': touch_type,
                 'touch_sequence': i + 1,
-                'is_conversion_touch': (i == num_touches - 1)
+                'is_conversion_touch': int(i == num_touches - 1)
             })
+        
+        # Progress indicator
+        if (acct_idx + 1) % 5000 == 0:
+            print(f"  Processed {acct_idx + 1:,} accounts...")
 
     df_touches = pd.DataFrame(all_touches)
     
     # Sort by account and then chronologically
     df_touches = df_touches.sort_values(['account_id', 'touch_timestamp']).reset_index(drop=True)
     
-    print("Marketing Attribution Touches table generated successfully.")
+    print(f"\n✅ Marketing Attribution Touches generated successfully!")
+    
+    # --- Validation Output ---
+    print(f"\n{'='*70}")
+    print("VALIDATION: Attribution Touch Statistics")
+    print(f"{'='*70}")
+    
+    print(f"Total touchpoints: {len(df_touches):,}")
+    print(f"Total accounts: {df_touches['account_id'].nunique():,}")
+    print(f"Avg touches per account: {len(df_touches) / df_touches['account_id'].nunique():.2f}")
+    
+    print(f"\nTouches per Account Distribution:")
+    touch_counts = df_touches.groupby('account_id').size()
+    print(f"  Min: {touch_counts.min()}")
+    print(f"  25th percentile: {touch_counts.quantile(0.25):.0f}")
+    print(f"  Median: {touch_counts.median():.0f}")
+    print(f"  75th percentile: {touch_counts.quantile(0.75):.0f}")
+    print(f"  Max: {touch_counts.max()}")
+    
+    print(f"\nFirst-Touch Attribution (% of accounts):")
+    first_touches = df_touches[df_touches['touch_sequence'] == 1]
+    first_touch_dist = first_touches['channel'].value_counts(normalize=True).sort_values(ascending=False) * 100
+    for channel, pct in first_touch_dist.items():
+        print(f"  {channel:20s}: {pct:5.1f}%")
+    
+    print(f"\nLast-Touch Attribution (% of accounts):")
+    last_touches = df_touches[df_touches['is_conversion_touch'] == 1]
+    last_touch_dist = last_touches['channel'].value_counts(normalize=True).sort_values(ascending=False) * 100
+    for channel, pct in last_touch_dist.items():
+        print(f"  {channel:20s}: {pct:5.1f}%")
+    
+    print(f"\nTouch Type Distribution:")
+    print(df_touches['touch_type'].value_counts())
+    
     return df_touches
 
-# Example usage (to be integrated into src/run_data_generation.py)
+
+# Example usage (for testing)
 if __name__ == '__main__':
-    # Placeholder for loading accounts_df
-    print("Warning: Running test mode, generate accounts locally...")
-    from account_generator import generate_accounts
-    accounts_df = generate_accounts() 
+    print("Loading accounts data...")
     
-    touches_df = generate_attribution_touches(accounts_df.head(100)) # Test with a subset
+    # Try to load from file first, otherwise generate
+    try:
+        accounts_df = pd.read_csv('data/synthetic/01_accounts.csv')
+        accounts_df['acquisition_date'] = pd.to_datetime(accounts_df['acquisition_date'])
+        print(f"Loaded {len(accounts_df)} accounts from file")
+    except:
+        print("Generating accounts from scratch for testing...")
+        from account_generator import generate_accounts
+        accounts_df = generate_accounts()
     
-    print("\n--- Head of Attribution Touches Table ---")
-    print(touches_df.head(20))
-    print(f"\nTotal touchpoints: {len(touches_df)}")
+    # Generate touches (test with subset for speed)
+    test_size = min(1000, len(accounts_df))
+    print(f"\nTesting with {test_size} accounts...\n")
     
-    # Verify the path structure
-    print("\nTouch count per account (should vary):")
-    print(touches_df.groupby('account_id')['touch_sequence'].max().describe())
+    touches_df = generate_attribution_touches(accounts_df.head(test_size))
+    
+    print("\n--- Sample Touch Records ---")
+    sample_account = touches_df['account_id'].iloc[0]
+    print(f"\nJourney for account {sample_account}:")
+    sample_journey = touches_df[touches_df['account_id'] == sample_account]
+    print(sample_journey[['touch_sequence', 'channel', 'touch_timestamp', 'touch_type', 'is_conversion_touch']])
