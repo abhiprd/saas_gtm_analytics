@@ -1,0 +1,929 @@
+{
+  "report_date": "2025-10-20",
+  "period": {
+    "start": "2025-10-13",
+    "end": "2025-10-19"
+  },
+  "prior_period": {
+    "start": "2025-10-06",
+    "end": "2025-10-12"
+  },
+  "quarter": "2025-Q4",
+  "acquisition": {
+    "sessions": {
+      "current": 29965,
+      "prior": 29682,
+      "change_pct": 0.0095,
+      "_query": {
+        "table": "fct_daily_web_traffic",
+        "filters": {
+          "date_gte": "2025-10-13",
+          "date_lte": "2025-10-19"
+        },
+        "aggregation": "sum(sessions)",
+        "row_count": 70
+      }
+    },
+    "sessions_by_channel": [
+      {
+        "channel": "Paid Search",
+        "channel_id": "CH-001",
+        "current": 8143,
+        "prior": 8740,
+        "change_pct": -0.0683,
+        "_query": {
+          "table": "fct_daily_web_traffic",
+          "filters": {
+            "date_gte": "2025-10-13",
+            "date_lte": "2025-10-19",
+            "channel_id": "CH-001"
+          },
+          "aggregation": "sum(sessions)",
+          "row_count": 7
+        }
+      },
+      {
+        "channel": "LinkedIn Ads",
+        "channel_id": "CH-002",
+        "current": 5790,
+        "prior": 5251,
+        "change_pct": 0.1026,
+        "_query": {
+          "table": "fct_daily_web_traffic",
+          "filters": {
+            "date_gte": "2025-10-13",
+            "date_lte": "2025-10-19",
+            "channel_id": "CH-002"
+          },
+          "aggregation": "sum(sessions)",
+          "row_count": 7
+        }
+      },
+      {
+        "channel": "Organic Search",
+        "channel_id": "CH-003",
+        "current": 4271,
+        "prior": 4179,
+        "change_pct": 0.022,
+        "_query": {
+          "table": "fct_daily_web_traffic",
+          "filters": {
+            "date_gte": "2025-10-13",
+            "date_lte": "2025-10-19",
+            "channel_id": "CH-003"
+          },
+          "aggregation": "sum(sessions)",
+          "row_count": 7
+        }
+      },
+      {
+        "channel": "Direct",
+        "channel_id": "CH-004",
+        "current": 3723,
+        "prior": 3264,
+        "change_pct": 0.1406,
+        "_query": {
+          "table": "fct_daily_web_traffic",
+          "filters": {
+            "date_gte": "2025-10-13",
+            "date_lte": "2025-10-19",
+            "channel_id": "CH-004"
+          },
+          "aggregation": "sum(sessions)",
+          "row_count": 7
+        }
+      },
+      {
+        "channel": "Referral",
+        "channel_id": "CH-005",
+        "current": 1024,
+        "prior": 1116,
+        "change_pct": -0.0824,
+        "_query": {
+          "table": "fct_daily_web_traffic",
+          "filters": {
+            "date_gte": "2025-10-13",
+            "date_lte": "2025-10-19",
+            "channel_id": "CH-005"
+          },
+          "aggregation": "sum(sessions)",
+          "row_count": 7
+        }
+      },
+      {
+        "channel": "Content Syndication",
+        "channel_id": "CH-006",
+        "current": 1031,
+        "prior": 1056,
+        "change_pct": -0.0237,
+        "_query": {
+          "table": "fct_daily_web_traffic",
+          "filters": {
+            "date_gte": "2025-10-13",
+            "date_lte": "2025-10-19",
+            "channel_id": "CH-006"
+          },
+          "aggregation": "sum(sessions)",
+          "row_count": 7
+        }
+      },
+      {
+        "channel": "Events/Conferences",
+        "channel_id": "CH-007",
+        "current": 676,
+        "prior": 635,
+        "change_pct": 0.0646,
+        "_query": {
+          "table": "fct_daily_web_traffic",
+          "filters": {
+            "date_gte": "2025-10-13",
+            "date_lte": "2025-10-19",
+            "channel_id": "CH-007"
+          },
+          "aggregation": "sum(sessions)",
+          "row_count": 7
+        }
+      },
+      {
+        "channel": "Programmatic/ABM Display",
+        "channel_id": "CH-008",
+        "current": 3650,
+        "prior": 3935,
+        "change_pct": -0.0724,
+        "_query": {
+          "table": "fct_daily_web_traffic",
+          "filters": {
+            "date_gte": "2025-10-13",
+            "date_lte": "2025-10-19",
+            "channel_id": "CH-008"
+          },
+          "aggregation": "sum(sessions)",
+          "row_count": 7
+        }
+      },
+      {
+        "channel": "AI Search",
+        "channel_id": "CH-009",
+        "current": 0,
+        "prior": 0,
+        "change_pct": null,
+        "_query": {
+          "table": "fct_daily_web_traffic",
+          "filters": {
+            "date_gte": "2025-10-13",
+            "date_lte": "2025-10-19",
+            "channel_id": "CH-009"
+          },
+          "aggregation": "sum(sessions)",
+          "row_count": 0
+        }
+      },
+      {
+        "channel": "Outbound SDR",
+        "channel_id": "CH-010",
+        "current": 628,
+        "prior": 696,
+        "change_pct": -0.0977,
+        "_query": {
+          "table": "fct_daily_web_traffic",
+          "filters": {
+            "date_gte": "2025-10-13",
+            "date_lte": "2025-10-19",
+            "channel_id": "CH-010"
+          },
+          "aggregation": "sum(sessions)",
+          "row_count": 7
+        }
+      },
+      {
+        "channel": "Partner/Channel",
+        "channel_id": "CH-011",
+        "current": 1029,
+        "prior": 810,
+        "change_pct": 0.2704,
+        "_query": {
+          "table": "fct_daily_web_traffic",
+          "filters": {
+            "date_gte": "2025-10-13",
+            "date_lte": "2025-10-19",
+            "channel_id": "CH-011"
+          },
+          "aggregation": "sum(sessions)",
+          "row_count": 7
+        }
+      }
+    ],
+    "spend": {
+      "current": 95548.7,
+      "prior": 93277.18,
+      "change_pct": 0.0244,
+      "_query": {
+        "table": "fct_daily_ad_spend",
+        "filters": {
+          "date_gte": "2025-10-13",
+          "date_lte": "2025-10-19"
+        },
+        "aggregation": "sum(spend_usd)",
+        "row_count": 35
+      }
+    },
+    "spend_by_channel": [
+      {
+        "channel": "Paid Search",
+        "channel_id": "CH-001",
+        "current": 37204.25,
+        "prior": 34401.23,
+        "change_pct": 0.0815,
+        "_query": {
+          "table": "fct_daily_ad_spend",
+          "filters": {
+            "date_gte": "2025-10-13",
+            "date_lte": "2025-10-19",
+            "channel_id": "CH-001"
+          },
+          "aggregation": "sum(spend_usd)",
+          "row_count": 7
+        }
+      },
+      {
+        "channel": "LinkedIn Ads",
+        "channel_id": "CH-002",
+        "current": 28975.94,
+        "prior": 28988.19,
+        "change_pct": -0.0004,
+        "_query": {
+          "table": "fct_daily_ad_spend",
+          "filters": {
+            "date_gte": "2025-10-13",
+            "date_lte": "2025-10-19",
+            "channel_id": "CH-002"
+          },
+          "aggregation": "sum(spend_usd)",
+          "row_count": 7
+        }
+      },
+      {
+        "channel": "Content Syndication",
+        "channel_id": "CH-006",
+        "current": 9417.16,
+        "prior": 8731.67,
+        "change_pct": 0.0785,
+        "_query": {
+          "table": "fct_daily_ad_spend",
+          "filters": {
+            "date_gte": "2025-10-13",
+            "date_lte": "2025-10-19",
+            "channel_id": "CH-006"
+          },
+          "aggregation": "sum(spend_usd)",
+          "row_count": 7
+        }
+      },
+      {
+        "channel": "Events/Conferences",
+        "channel_id": "CH-007",
+        "current": 13119.5,
+        "prior": 13587.25,
+        "change_pct": -0.0344,
+        "_query": {
+          "table": "fct_daily_ad_spend",
+          "filters": {
+            "date_gte": "2025-10-13",
+            "date_lte": "2025-10-19",
+            "channel_id": "CH-007"
+          },
+          "aggregation": "sum(spend_usd)",
+          "row_count": 7
+        }
+      },
+      {
+        "channel": "Programmatic/ABM Display",
+        "channel_id": "CH-008",
+        "current": 6831.85,
+        "prior": 7568.84,
+        "change_pct": -0.0974,
+        "_query": {
+          "table": "fct_daily_ad_spend",
+          "filters": {
+            "date_gte": "2025-10-13",
+            "date_lte": "2025-10-19",
+            "channel_id": "CH-008"
+          },
+          "aggregation": "sum(spend_usd)",
+          "row_count": 7
+        }
+      }
+    ],
+    "cpl_by_channel": [
+      {
+        "channel": "Paid Search",
+        "channel_id": "CH-001",
+        "current": 150.02,
+        "prior": 125.1,
+        "target": 120,
+        "change_pct": 0.1992,
+        "_query": {
+          "table": "fct_daily_ad_spend",
+          "filters": {
+            "date_gte": "2025-10-13",
+            "date_lte": "2025-10-19",
+            "channel_id": "CH-001"
+          },
+          "aggregation": "sum(spend_usd)/sum(conversions)",
+          "row_count": 7
+        }
+      },
+      {
+        "channel": "LinkedIn Ads",
+        "channel_id": "CH-002",
+        "current": 134.15,
+        "prior": 136.74,
+        "target": 160,
+        "change_pct": -0.0189,
+        "_query": {
+          "table": "fct_daily_ad_spend",
+          "filters": {
+            "date_gte": "2025-10-13",
+            "date_lte": "2025-10-19",
+            "channel_id": "CH-002"
+          },
+          "aggregation": "sum(spend_usd)/sum(conversions)",
+          "row_count": 7
+        }
+      },
+      {
+        "channel": "Content Syndication",
+        "channel_id": "CH-006",
+        "current": 192.19,
+        "prior": 100.36,
+        "target": 85,
+        "change_pct": 0.915,
+        "_query": {
+          "table": "fct_daily_ad_spend",
+          "filters": {
+            "date_gte": "2025-10-13",
+            "date_lte": "2025-10-19",
+            "channel_id": "CH-006"
+          },
+          "aggregation": "sum(spend_usd)/sum(conversions)",
+          "row_count": 7
+        }
+      },
+      {
+        "channel": "Events/Conferences",
+        "channel_id": "CH-007",
+        "current": 97.91,
+        "prior": 147.69,
+        "target": 200,
+        "change_pct": -0.3371,
+        "_query": {
+          "table": "fct_daily_ad_spend",
+          "filters": {
+            "date_gte": "2025-10-13",
+            "date_lte": "2025-10-19",
+            "channel_id": "CH-007"
+          },
+          "aggregation": "sum(spend_usd)/sum(conversions)",
+          "row_count": 7
+        }
+      },
+      {
+        "channel": "Programmatic/ABM Display",
+        "channel_id": "CH-008",
+        "current": 184.64,
+        "prior": 132.79,
+        "target": 140,
+        "change_pct": 0.3905,
+        "_query": {
+          "table": "fct_daily_ad_spend",
+          "filters": {
+            "date_gte": "2025-10-13",
+            "date_lte": "2025-10-19",
+            "channel_id": "CH-008"
+          },
+          "aggregation": "sum(spend_usd)/sum(conversions)",
+          "row_count": 7
+        }
+      }
+    ],
+    "budget_pacing": [
+      {
+        "channel": "Paid Search",
+        "channel_id": "CH-001",
+        "spent_mtd": 96705.54,
+        "budget": 150000,
+        "expected_pct": 0.6129,
+        "pacing_pct": 0.6447,
+        "_query": {
+          "table": "fct_daily_ad_spend",
+          "filters": {
+            "date_gte": "2025-10-01",
+            "date_lte": "2025-10-19",
+            "channel_id": "CH-001"
+          },
+          "aggregation": "sum(spend_usd)",
+          "row_count": 19
+        }
+      },
+      {
+        "channel": "LinkedIn Ads",
+        "channel_id": "CH-002",
+        "spent_mtd": 76200.8,
+        "budget": 110000,
+        "expected_pct": 0.6129,
+        "pacing_pct": 0.6927,
+        "_query": {
+          "table": "fct_daily_ad_spend",
+          "filters": {
+            "date_gte": "2025-10-01",
+            "date_lte": "2025-10-19",
+            "channel_id": "CH-002"
+          },
+          "aggregation": "sum(spend_usd)",
+          "row_count": 19
+        }
+      },
+      {
+        "channel": "Content Syndication",
+        "channel_id": "CH-006",
+        "spent_mtd": 24504.16,
+        "budget": 35000,
+        "expected_pct": 0.6129,
+        "pacing_pct": 0.7001,
+        "_query": {
+          "table": "fct_daily_ad_spend",
+          "filters": {
+            "date_gte": "2025-10-01",
+            "date_lte": "2025-10-19",
+            "channel_id": "CH-006"
+          },
+          "aggregation": "sum(spend_usd)",
+          "row_count": 19
+        }
+      },
+      {
+        "channel": "Events/Conferences",
+        "channel_id": "CH-007",
+        "spent_mtd": 37032.37,
+        "budget": 55000,
+        "expected_pct": 0.6129,
+        "pacing_pct": 0.6733,
+        "_query": {
+          "table": "fct_daily_ad_spend",
+          "filters": {
+            "date_gte": "2025-10-01",
+            "date_lte": "2025-10-19",
+            "channel_id": "CH-007"
+          },
+          "aggregation": "sum(spend_usd)",
+          "row_count": 19
+        }
+      },
+      {
+        "channel": "Programmatic/ABM Display",
+        "channel_id": "CH-008",
+        "spent_mtd": 19016.63,
+        "budget": 28000,
+        "expected_pct": 0.6129,
+        "pacing_pct": 0.6792,
+        "_query": {
+          "table": "fct_daily_ad_spend",
+          "filters": {
+            "date_gte": "2025-10-01",
+            "date_lte": "2025-10-19",
+            "channel_id": "CH-008"
+          },
+          "aggregation": "sum(spend_usd)",
+          "row_count": 19
+        }
+      }
+    ]
+  },
+  "conversion": {
+    "leads": {
+      "current": 398,
+      "prior": 380,
+      "change_pct": 0.0474,
+      "_query": {
+        "table": "dim_contacts",
+        "filters": {
+          "created_date_gte": "2025-10-13",
+          "created_date_lte": "2025-10-19"
+        },
+        "aggregation": "count(*)",
+        "row_count": 398
+      }
+    },
+    "mqls": {
+      "current": 127,
+      "prior": 122,
+      "change_pct": 0.041,
+      "_query": {
+        "table": "dim_contacts",
+        "filters": {
+          "created_date_gte": "2025-10-13",
+          "created_date_lte": "2025-10-19",
+          "mql_date": "notna"
+        },
+        "aggregation": "count(*)",
+        "row_count": 127
+      }
+    },
+    "mql_rate": {
+      "current": 0.3191,
+      "prior": 0.3211,
+      "target": 0.31,
+      "change_pct": -0.0062
+    },
+    "mql_to_sql_rate": {
+      "current": 0.3307,
+      "prior": 0.3443,
+      "target": 0.33,
+      "change_pct": -0.0395
+    },
+    "mql_to_sql_by_source": [
+      {
+        "source": "Event",
+        "mqls": 73,
+        "sqls": 22,
+        "rate": 0.301,
+        "_query": {
+          "table": "dim_contacts",
+          "filters": {
+            "created_date_gte": "2025-10-01",
+            "mql_date": "notna",
+            "lead_source": "Event"
+          },
+          "aggregation": "count(sql_date notna)/count(mql_date notna)",
+          "row_count": 73
+        }
+      },
+      {
+        "source": "Inbound - Content",
+        "mqls": 264,
+        "sqls": 78,
+        "rate": 0.295,
+        "_query": {
+          "table": "dim_contacts",
+          "filters": {
+            "created_date_gte": "2025-10-01",
+            "mql_date": "notna",
+            "lead_source": "Inbound - Content"
+          },
+          "aggregation": "count(sql_date notna)/count(mql_date notna)",
+          "row_count": 264
+        }
+      },
+      {
+        "source": "Inbound - Demo Request",
+        "mqls": 275,
+        "sqls": 96,
+        "rate": 0.349,
+        "_query": {
+          "table": "dim_contacts",
+          "filters": {
+            "created_date_gte": "2025-10-01",
+            "mql_date": "notna",
+            "lead_source": "Inbound - Demo Request"
+          },
+          "aggregation": "count(sql_date notna)/count(mql_date notna)",
+          "row_count": 275
+        }
+      },
+      {
+        "source": "Inbound - Trial",
+        "mqls": 119,
+        "sqls": 35,
+        "rate": 0.294,
+        "_query": {
+          "table": "dim_contacts",
+          "filters": {
+            "created_date_gte": "2025-10-01",
+            "mql_date": "notna",
+            "lead_source": "Inbound - Trial"
+          },
+          "aggregation": "count(sql_date notna)/count(mql_date notna)",
+          "row_count": 119
+        }
+      },
+      {
+        "source": "Outbound - SDR",
+        "mqls": 254,
+        "sqls": 107,
+        "rate": 0.421,
+        "_query": {
+          "table": "dim_contacts",
+          "filters": {
+            "created_date_gte": "2025-10-01",
+            "mql_date": "notna",
+            "lead_source": "Outbound - SDR"
+          },
+          "aggregation": "count(sql_date notna)/count(mql_date notna)",
+          "row_count": 254
+        }
+      },
+      {
+        "source": "PLG Signup",
+        "mqls": 115,
+        "sqls": 35,
+        "rate": 0.304,
+        "_query": {
+          "table": "dim_contacts",
+          "filters": {
+            "created_date_gte": "2025-10-01",
+            "mql_date": "notna",
+            "lead_source": "PLG Signup"
+          },
+          "aggregation": "count(sql_date notna)/count(mql_date notna)",
+          "row_count": 115
+        }
+      },
+      {
+        "source": "Partner Referral",
+        "mqls": 74,
+        "sqls": 23,
+        "rate": 0.311,
+        "_query": {
+          "table": "dim_contacts",
+          "filters": {
+            "created_date_gte": "2025-10-01",
+            "mql_date": "notna",
+            "lead_source": "Partner Referral"
+          },
+          "aggregation": "count(sql_date notna)/count(mql_date notna)",
+          "row_count": 74
+        }
+      }
+    ],
+    "avg_lead_score": {
+      "current": null,
+      "prior": null,
+      "change_pct": null
+    }
+  },
+  "contribution": {
+    "pipeline_created_qtd": 4197990.67,
+    "pipeline_target_qtd": 5782608.7,
+    "pipeline_pacing_pct": 0.1499,
+    "pipeline_by_source": [
+      {
+        "source": "Inbound",
+        "pipeline_usd": 3041234.65,
+        "opp_count": 28,
+        "_query": {
+          "table": "dim_opportunities",
+          "filters": {
+            "created_date_gte": "2025-10-01",
+            "created_date_lte": "2025-10-19",
+            "deal_source": "Inbound"
+          },
+          "aggregation": "sum(acv_usd)",
+          "row_count": 28
+        }
+      },
+      {
+        "source": "Outbound",
+        "pipeline_usd": 969917.85,
+        "opp_count": 12,
+        "_query": {
+          "table": "dim_opportunities",
+          "filters": {
+            "created_date_gte": "2025-10-01",
+            "created_date_lte": "2025-10-19",
+            "deal_source": "Outbound"
+          },
+          "aggregation": "sum(acv_usd)",
+          "row_count": 12
+        }
+      },
+      {
+        "source": "PLG Upgrade",
+        "pipeline_usd": 174188.6,
+        "opp_count": 5,
+        "_query": {
+          "table": "dim_opportunities",
+          "filters": {
+            "created_date_gte": "2025-10-01",
+            "created_date_lte": "2025-10-19",
+            "deal_source": "PLG Upgrade"
+          },
+          "aggregation": "sum(acv_usd)",
+          "row_count": 5
+        }
+      },
+      {
+        "source": "Partner",
+        "pipeline_usd": 12649.57,
+        "opp_count": 1,
+        "_query": {
+          "table": "dim_opportunities",
+          "filters": {
+            "created_date_gte": "2025-10-01",
+            "created_date_lte": "2025-10-19",
+            "deal_source": "Partner"
+          },
+          "aggregation": "sum(acv_usd)",
+          "row_count": 1
+        }
+      }
+    ],
+    "pipeline_by_channel_first_touch": [
+      {
+        "channel": "Partner/Channel",
+        "channel_id": "CH-011",
+        "pipeline_usd": 861086.0,
+        "opp_count": 6,
+        "_query": {
+          "table": "fct_multi_touch_attribution + dim_opportunities",
+          "filters": {
+            "opp_created_date_gte": "2025-10-01",
+            "is_first_touch": true,
+            "channel_id": "CH-011"
+          },
+          "aggregation": "sum(acv_usd)",
+          "row_count": 6
+        }
+      },
+      {
+        "channel": "Referral",
+        "channel_id": "CH-005",
+        "pipeline_usd": 785267.91,
+        "opp_count": 4,
+        "_query": {
+          "table": "fct_multi_touch_attribution + dim_opportunities",
+          "filters": {
+            "opp_created_date_gte": "2025-10-01",
+            "is_first_touch": true,
+            "channel_id": "CH-005"
+          },
+          "aggregation": "sum(acv_usd)",
+          "row_count": 4
+        }
+      },
+      {
+        "channel": "Events/Conferences",
+        "channel_id": "CH-007",
+        "pipeline_usd": 677418.03,
+        "opp_count": 6,
+        "_query": {
+          "table": "fct_multi_touch_attribution + dim_opportunities",
+          "filters": {
+            "opp_created_date_gte": "2025-10-01",
+            "is_first_touch": true,
+            "channel_id": "CH-007"
+          },
+          "aggregation": "sum(acv_usd)",
+          "row_count": 6
+        }
+      },
+      {
+        "channel": "Content Syndication",
+        "channel_id": "CH-006",
+        "pipeline_usd": 385573.97,
+        "opp_count": 2,
+        "_query": {
+          "table": "fct_multi_touch_attribution + dim_opportunities",
+          "filters": {
+            "opp_created_date_gte": "2025-10-01",
+            "is_first_touch": true,
+            "channel_id": "CH-006"
+          },
+          "aggregation": "sum(acv_usd)",
+          "row_count": 2
+        }
+      },
+      {
+        "channel": "Paid Search",
+        "channel_id": "CH-001",
+        "pipeline_usd": 363567.7,
+        "opp_count": 4,
+        "_query": {
+          "table": "fct_multi_touch_attribution + dim_opportunities",
+          "filters": {
+            "opp_created_date_gte": "2025-10-01",
+            "is_first_touch": true,
+            "channel_id": "CH-001"
+          },
+          "aggregation": "sum(acv_usd)",
+          "row_count": 4
+        }
+      },
+      {
+        "channel": "Programmatic/ABM Display",
+        "channel_id": "CH-008",
+        "pipeline_usd": 330665.68,
+        "opp_count": 4,
+        "_query": {
+          "table": "fct_multi_touch_attribution + dim_opportunities",
+          "filters": {
+            "opp_created_date_gte": "2025-10-01",
+            "is_first_touch": true,
+            "channel_id": "CH-008"
+          },
+          "aggregation": "sum(acv_usd)",
+          "row_count": 4
+        }
+      },
+      {
+        "channel": "AI Search",
+        "channel_id": "CH-009",
+        "pipeline_usd": 329608.42,
+        "opp_count": 6,
+        "_query": {
+          "table": "fct_multi_touch_attribution + dim_opportunities",
+          "filters": {
+            "opp_created_date_gte": "2025-10-01",
+            "is_first_touch": true,
+            "channel_id": "CH-009"
+          },
+          "aggregation": "sum(acv_usd)",
+          "row_count": 6
+        }
+      },
+      {
+        "channel": "LinkedIn Ads",
+        "channel_id": "CH-002",
+        "pipeline_usd": 260290.6,
+        "opp_count": 8,
+        "_query": {
+          "table": "fct_multi_touch_attribution + dim_opportunities",
+          "filters": {
+            "opp_created_date_gte": "2025-10-01",
+            "is_first_touch": true,
+            "channel_id": "CH-002"
+          },
+          "aggregation": "sum(acv_usd)",
+          "row_count": 8
+        }
+      },
+      {
+        "channel": "Organic Search",
+        "channel_id": "CH-003",
+        "pipeline_usd": 172109.33,
+        "opp_count": 4,
+        "_query": {
+          "table": "fct_multi_touch_attribution + dim_opportunities",
+          "filters": {
+            "opp_created_date_gte": "2025-10-01",
+            "is_first_touch": true,
+            "channel_id": "CH-003"
+          },
+          "aggregation": "sum(acv_usd)",
+          "row_count": 4
+        }
+      },
+      {
+        "channel": "Outbound SDR",
+        "channel_id": "CH-010",
+        "pipeline_usd": 32403.03,
+        "opp_count": 2,
+        "_query": {
+          "table": "fct_multi_touch_attribution + dim_opportunities",
+          "filters": {
+            "opp_created_date_gte": "2025-10-01",
+            "is_first_touch": true,
+            "channel_id": "CH-010"
+          },
+          "aggregation": "sum(acv_usd)",
+          "row_count": 2
+        }
+      }
+    ],
+    "won_acv_qtd": 468193.27,
+    "open_pipeline": 2650461.54,
+    "_query": {
+      "table": "dim_opportunities",
+      "filters": {
+        "created_date_gte": "2025-10-01",
+        "created_date_lte": "2025-10-19"
+      },
+      "aggregation": "sum(acv_usd)",
+      "row_count": 46
+    }
+  },
+  "targets": {
+    "leads": 4200,
+    "mqls": 1300,
+    "sqls": 420,
+    "new_opps": 300,
+    "pipeline_created": 28000000,
+    "pipeline_won": 4500000,
+    "mql_rate": 0.31,
+    "mql_to_sql_rate": 0.33,
+    "channel_budgets_monthly": {
+      "Paid Search": 150000,
+      "LinkedIn Ads": 110000,
+      "Content Syndication": 35000,
+      "Events/Conferences": 55000,
+      "Programmatic/ABM Display": 28000
+    },
+    "cpl_targets": {
+      "Paid Search": 120,
+      "LinkedIn Ads": 160,
+      "Content Syndication": 85,
+      "Events/Conferences": 200,
+      "Programmatic/ABM Display": 140
+    },
+    "marketing_sourced_pipeline_pct": 0.65
+  }
+}

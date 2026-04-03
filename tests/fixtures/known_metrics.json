@@ -1,0 +1,55 @@
+{
+  "_note": "Validated against raw parquets 2025-04-02. If a test fails, the query changed — investigate before accepting new number.",
+  "q4_2025": {
+    "leads": 3967,
+    "mqls": 1174,
+    "sqls": 396,
+    "mql_rate": 0.296,
+    "mql_to_sql_rate": 0.337,
+    "new_opps": 282,
+    "pipeline_created_usd": 25087941,
+    "pipeline_won_usd": 1372073,
+    "open_pipeline_usd": 20748126,
+    "win_rate_closed": 0.375
+  },
+  "nov_2025": {
+    "leads": 1234,
+    "mqls": 349,
+    "sqls": 106,
+    "mql_rate": 0.283,
+    "total_ad_spend_usd": 366921,
+    "sessions_paid_search": 31901,
+    "sessions_linkedin_ads": 19739
+  },
+  "oct_2025": {
+    "leads": 1564,
+    "mqls": 477,
+    "sqls": 169,
+    "mql_rate": 0.305
+  },
+  "mql_to_sql_by_source_q4": {
+    "Outbound - SDR": 0.43,
+    "Inbound - Demo Request": 0.34,
+    "Inbound - Trial": 0.32,
+    "PLG Signup": 0.31,
+    "Event": 0.28,
+    "Inbound - Content": 0.27,
+    "Partner Referral": 0.27
+  },
+  "cpc_by_year": {
+    "2022": 4.54,
+    "2023": 5.13,
+    "2024": 5.69,
+    "2025": 6.15
+  },
+  "mql_rate_trend_2025": {
+    "07": 0.310,
+    "08": 0.303,
+    "09": 0.299,
+    "10": 0.305,
+    "11": 0.283
+  },
+  "active_customers": 423,
+  "churned_customers": 100,
+  "active_arr_usd": 29248279
+}
