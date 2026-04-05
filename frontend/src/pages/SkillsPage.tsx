@@ -5,7 +5,7 @@ import { type Intelligence } from "@/data/briefing";
 import SeverityBadge from "@/components/SeverityBadge";
 import StatCard from "@/components/StatCard";
 
-const intel = intelligence as Intelligence;
+const intel = intelligence as unknown as Intelligence;
 
 const skills = [
   {

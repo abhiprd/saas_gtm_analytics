@@ -1,131 +1,130 @@
 {
   "the_one_thing": {
-    "headline": "Content Syndication and Display campaigns are burning $1,518 weekly above target CPL while you're 85% behind on pipeline \u2014 reallocate immediately to proven channels.",
-    "explanation": "Content Syndication CPL spiked to $192 (126% over target) while Display hit $185 (32% over). Meanwhile, Events and Partner channels are generating the highest pipeline per opportunity ($113K and $143K respectively). You're hemorrhaging budget on underperformers while starving the channels that actually produce revenue.",
-    "action": "Pause underperforming Content Syndication and Display campaigns by Tuesday. Reallocate their $1,518 weekly overspend to Events/Conferences and Partner programs. Expected impact: Drop blended CPL by 12% while increasing pipeline velocity."
+    "headline": "Pipeline trajectory shows you'll miss Q4 target by $10M \u2014 but the real problem is paid media efficiency, not volume.",
+    "explanation": "At current $1.4M/week velocity, Q4 lands at $18M of $28M target. But throwing more spend at Paid Search (3.8x ROI, $24K/opp) and LinkedIn Ads (3.4x ROI) won't fix this. Events generates 18.3x ROI with $113K avg deals \u2014 that's where the math works.",
+    "action": "Shift $39K from LinkedIn Ads to Events/Conferences this week. At Events' 18.3x ROI, expect $713K additional pipeline vs $133K from LinkedIn \u2014 a 5.4x improvement in pipeline generation efficiency."
   },
   "acquisition_intelligence": {
-    "narrative": "Three channels are bleeding budget with CPLs 25-126% above target, costing $1,518 weekly in overspend. But the story isn't just efficiency \u2014 it's about where those expensive leads go. Content Syndication's $192 CPL might be justifiable if those leads convert to pipeline, but with only $385K pipeline from a channel you're overinvesting in, the math doesn't work. Meanwhile, LinkedIn Ads are performing at $134 CPL (16% under target) but generating just $260K pipeline \u2014 your most efficient spend isn't your most effective.",
+    "narrative": "The acquisition portfolio has a tale of two efficiencies: Events generates $18 of pipeline per dollar spent while Paid Search generates $3.76. Content Syndication CPL spiked 91% but still produces 15.7x ROI because it sources Enterprise deals. The issue isn't spend levels \u2014 it's allocation across dramatically different pipeline economics.",
     "findings": [
       {
         "severity": "critical",
-        "title": "Content Syndication CPL Spike",
-        "insight": "CPL doubled from $100 to $192 in one week, now 126% above target. This channel produced only $385K QTD pipeline despite heavy investment \u2014 lowest ROI in the portfolio.",
-        "action": "Pause bottom 50% of Content Syndication campaigns by Tuesday. Reallocate $1,072 weekly to Events (97% under CPL target, $113K pipeline per opp).",
+        "title": "Paid Search Efficiency Crisis",
+        "insight": "Paid Search burns $97K monthly for 3.8x pipeline ROI \u2014 the worst among paid channels. At $24K per opportunity with $91K avg ACV, payback is marginal. Events generates the same pipeline volume ($677K vs $364K) with 1/3 the spend.",
+        "action": "Audit and pause underperforming Paid Search campaigns immediately. Reallocate $25K to Events/Conferences which generates 4.8x better ROI.",
         "evidence": {
-          "current": 192.19,
-          "target": 85,
-          "prior": 100.36
-        }
-      },
-      {
-        "severity": "critical",
-        "title": "Display Campaign Deterioration",
-        "insight": "Programmatic/ABM Display CPL jumped 39% to $185, now 32% over target. Sessions down 7% despite increased spend \u2014 audience fatigue or targeting drift.",
-        "action": "Audit audience segments and refresh creative. Reduce spend by $446 weekly until CPL returns to $140 target.",
-        "evidence": {
-          "current": 184.64,
-          "target": 140,
-          "prior": 132.79
+          "paid_search_roi": 3.76,
+          "events_roi": 18.29,
+          "paid_search_cost_per_opp": 24176.38
         }
       },
       {
         "severity": "warning",
-        "title": "Paid Search Efficiency Decline",
-        "insight": "CPL increased 20% to $150 while sessions dropped 6.8%. Search volume declining or competition intensifying \u2014 need keyword analysis.",
-        "action": "Review search term reports. Pause broad match keywords with CPL >$180. Expected CPL reduction to ~$135.",
+        "title": "LinkedIn Ads Volume Trap",
+        "insight": "LinkedIn Ads has the lowest CPL ($116) but 3.4x pipeline ROI because it sources primarily SMB deals ($33K avg ACV vs $113K for Events). High activity, low value \u2014 classic efficiency mistake.",
+        "action": "Reduce LinkedIn Ads budget by $15K, redirect to Programmatic/ABM Display (17.4x ROI) which targets similar audiences but converts to higher-value Enterprise deals.",
         "evidence": {
-          "current": 150.02,
-          "target": 120,
-          "prior": 125.1
+          "linkedin_avg_acv": 32536.33,
+          "events_avg_acv": 112903.01,
+          "linkedin_roi": 3.42
+        }
+      },
+      {
+        "severity": "info",
+        "title": "Content Syndication Quality Over Quantity",
+        "insight": "Content Syndication CPL doubled to $192 but maintains 15.7x ROI because 67% of pipeline is Enterprise deals. The higher CPL reflects better targeting, not worse performance.",
+        "action": "Maintain Content Syndication investment despite CPL increase. The Enterprise deal mix ($193K avg ACV) justifies higher acquisition costs.",
+        "evidence": {
+          "content_syn_cpl": 192.19,
+          "content_syn_roi": 15.74,
+          "enterprise_pipeline_pct": 0.67
         }
       }
     ]
   },
   "conversion_intelligence": {
-    "narrative": "Conversion rates are stable but reveal a quality problem hiding in the averages. Your best source (Outbound SDR) converts MQLs to SQLs at 42% while your worst (Inbound Trial) manages only 29%. This 13-point spread means you're either acquiring the wrong trial users or sales is deprioritizing them. With pipeline 85% behind target, you can't afford to waste high-intent prospects on poor follow-up.",
+    "narrative": "Conversion rates are stable but reveal source quality differences that acquisition metrics miss. Outbound SDR converts 42% of MQLs to SQLs while Inbound Trial converts only 29% \u2014 yet both get equal SDR attention. This inefficiency compounds the acquisition allocation problem.",
     "findings": [
       {
         "severity": "warning",
-        "title": "Source Conversion Disparity",
-        "insight": "42% MQL\u2192SQL rate for Outbound SDR vs 29% for Inbound Trial creates a 13-point quality gap. Sales may be cherry-picking outbound leads over inbound volume.",
-        "action": "Institute source-agnostic lead routing for one week test. If Trial conversion stays low, reduce Trial campaign spend by 30%.",
+        "title": "Source Conversion Hierarchy Ignored",
+        "insight": "Outbound SDR MQLs convert at 42% vs 29% for Inbound Trial, but lead routing treats them equally. SDRs spending time on 29% conversion sources when 42% sources exist is pure inefficiency.",
+        "action": "Implement conversion rate-based lead scoring. Route Outbound and Demo Request leads (34-42% conversion) to top SDR tier, deprioritize Trial signups until conversion improves.",
         "evidence": {
-          "current": 0.29,
-          "target": 0.33,
-          "prior": null
+          "outbound_conversion": 0.421,
+          "trial_conversion": 0.294,
+          "demo_conversion": 0.349
         }
       }
     ]
   },
   "contribution_intelligence": {
-    "narrative": "The pipeline math is brutal: $4.2M created against a $28M target means you need $2.3M weekly for 10 weeks straight. But the channel attribution reveals opportunity. Partner/Channel and Events are generating $143K and $113K per opportunity respectively, while LinkedIn \u2014 your most efficient CPL channel \u2014 produces only $32K per opp. You're optimizing for the wrong metric. Pipeline value per opportunity matters more than cost per lead when you're 85% behind target.",
+    "narrative": "Pipeline velocity is accelerating (+$728K/week) but won't close the $23M gap. Only $639K sits in late stages vs $4M needed to hit won revenue target. The action isn't generating new pipeline \u2014 it's advancing existing mid-stage deals before quarter-end.",
     "findings": [
       {
         "severity": "critical",
-        "title": "Pipeline Velocity Crisis",
-        "insight": "Need $2.3M pipeline weekly to hit target. Current run rate suggests $16M shortfall. Must prioritize high-velocity, high-value sources over volume plays.",
-        "action": "Launch SDR blitz on Tier 1 accounts this week. Target 50 net-new opportunities by month-end. Expected pipeline: $1.2M based on average deal size.",
+        "title": "Late-Stage Pipeline Shortage",
+        "insight": "Only $639K in Proposal+ stages vs $4M won revenue gap. 76% of pipeline ($2M) sits in Discovery/Demo \u2014 won't close this quarter. New pipeline generation is irrelevant; deal advancement is everything.",
+        "action": "Deploy sales leadership to the 4 deals in Proposal+ stages. Each deal closed adds $160K avg. Focus on Security Review ($239K) and Procurement ($189K) deals \u2014 they're closest to close.",
         "evidence": {
-          "current": 4197990.67,
-          "target": 28000000,
-          "prior": null
-        }
-      },
-      {
-        "severity": "critical",
-        "title": "Revenue Recovery Window Closing",
-        "insight": "$468K closed-won against $4.5M target (10%) with limited time to accelerate deals already in pipeline. Focus on late-stage acceleration, not new pipeline.",
-        "action": "Audit Proposal/Negotiation stage deals. Deploy executive sponsorship for top 5 deals. Expected close rate boost: +15%.",
-        "evidence": {
-          "current": 468193.27,
-          "target": 4500000,
-          "prior": null
+          "closeable_pipeline": 638585.97,
+          "total_gap": 4031806.73,
+          "early_stage_pct": 0.76
         }
       },
       {
         "severity": "warning",
-        "title": "Channel Value Misalignment",
-        "insight": "Partner/Channel generates $143K per opp but gets minimal budget. LinkedIn Ads get $29K weekly but produce $32K per opp. Spending efficiently on low-value channels.",
-        "action": "Shift $5K weekly from LinkedIn to Partner co-marketing campaigns. Expected pipeline boost: $400K over 6 weeks.",
+        "title": "Mid-Stage Conversion Bottleneck",
+        "insight": "$861K in Demo/Evaluation stage \u2014 largest single stage. These deals advancing to Proposal by month-end could add $200-300K closeable pipeline, meaningful against $639K current total.",
+        "action": "Sales ops to analyze Demo stage stall points. Implement deal advancement plays: competitive battles, ROI calculators, executive sponsorship. Target 30% advancement rate.",
         "evidence": {
-          "current": 861086,
-          "target": null,
-          "prior": null
+          "demo_stage_pipeline": 860872.92,
+          "demo_stage_opps": 2
+        }
+      },
+      {
+        "severity": "info",
+        "title": "SDR Capacity for Q1 Pipeline",
+        "insight": "SDRs at 45% utilization with 404 high-intent Tier 1 accounts available. Can't help Q4, but this capacity should seed Q1 pipeline. Outbound pipeline averages 3-month sales cycles.",
+        "action": "Launch SDR blitz on 404 high-intent accounts over next 2 weeks. Target 150 additional meetings before quarter-end to build Q1 pipeline foundation.",
+        "evidence": {
+          "sdr_utilization": 0.447,
+          "high_intent_accounts": 404,
+          "outbound_pipeline_qtd": 969917.85
         }
       }
     ]
   },
   "priority_actions": [
     {
-      "action": "Pause underperforming Content Syndication campaigns ($192 CPL, 126% over target)",
-      "expected_impact": "Save $1,072 weekly, reduce blended CPL by 8%",
+      "action": "Reallocate $25K from Paid Search to Events/Conferences",
+      "expected_impact": "$457K additional pipeline at Events' 18.3x ROI vs Paid Search 3.8x",
       "urgency": "Do this Monday",
-      "domain": "acquisition"
+      "domain": "cross-domain"
     },
     {
-      "action": "Launch SDR blitz targeting 50 Tier 1 accounts with executive outreach",
-      "expected_impact": "Generate $1.2M net-new pipeline by month-end",
-      "urgency": "Do this Monday",
-      "domain": "contribution"
-    },
-    {
-      "action": "Audit Proposal/Negotiation stage deals and deploy executive sponsorship for top 5",
-      "expected_impact": "Increase close rate by 15%, accelerate $300K+ in revenue",
+      "action": "Sales leadership intervention on 4 Proposal+ stage deals",
+      "expected_impact": "Closing 50% adds $319K won revenue vs current $469K QTD",
       "urgency": "This week",
       "domain": "contribution"
     },
     {
-      "action": "Reallocate $5K weekly from LinkedIn Ads to Partner co-marketing programs",
-      "expected_impact": "$400K additional pipeline over 6 weeks based on channel performance",
+      "action": "Implement conversion-based lead scoring and routing",
+      "expected_impact": "15% SQL increase by prioritizing 42% conversion sources over 29%",
       "urgency": "This week",
-      "domain": "acquisition"
+      "domain": "conversion"
+    },
+    {
+      "action": "SDR blitz on 404 high-intent Tier 1 accounts",
+      "expected_impact": "150 additional meetings generating $500K Q1 pipeline at current rates",
+      "urgency": "Before end of quarter",
+      "domain": "contribution"
     }
   ],
   "cross_domain_connections": [
-    "Content Syndication's $192 CPL disaster becomes clearer when you see it generated only $385K QTD pipeline \u2014 your most expensive leads produce your least valuable opportunities.",
-    "LinkedIn Ads have the best CPL efficiency ($134 vs $160 target) but worst pipeline value per opportunity ($32K) \u2014 optimizing for lead cost while starving pipeline value.",
-    "Partner/Channel represents 0.3% of sessions but 20% of pipeline value, yet gets zero paid acquisition budget \u2014 channel mix is misaligned with revenue outcomes.",
-    "Outbound SDR leads convert to SQL 44% better than Trial leads, but SDR channel gets only 2% of sessions \u2014 conversion quality insights should drive acquisition allocation."
+    "Events has the lowest session count (1,785) but highest pipeline ROI (18.3x) because it sources Enterprise deals \u2014 proving traffic volume is a vanity metric when deal size varies 5x across channels.",
+    "Content Syndication's 91% CPL increase actually signals better targeting since Enterprise pipeline share rose to 67% \u2014 sometimes higher CPLs indicate improved efficiency, not waste.",
+    "Outbound MQLs convert 13 points higher than Trial MQLs, yet acquisition spend prioritizes channels that drive Trial signups \u2014 the conversion gap compounds acquisition inefficiency.",
+    "Pipeline velocity is accelerating but 76% sits too early to close this quarter \u2014 the real metric is advancement velocity from Discovery to Proposal, not total pipeline creation."
   ]
 }

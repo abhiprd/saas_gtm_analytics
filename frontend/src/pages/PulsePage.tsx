@@ -34,7 +34,7 @@ import {
   changeColor,
 } from "@/utils/format";
 
-const intel = intelligence as Intelligence;
+const intel = intelligence as unknown as Intelligence;
 
 /* ─── Urgency Tag ─────────────────────────────────────────────────────────── */
 
@@ -160,6 +160,27 @@ function MetricTile({
   );
 }
 
+/* ─── Evidence value formatter ────────────────────────────────────────────── */
+
+function fmtEvidence(key: string, val: number | string | null): string {
+  if (val === null || val === undefined) return "—";
+  if (typeof val === "string") return val;
+  // Percentages (key contains "pct", "rate", "conversion", "utilization")
+  if (/pct|rate|conversion|utilization/i.test(key)) return fmtPct(val, 1);
+  // Large dollar amounts
+  if (val > 100000) return fmtCurrency(val, true);
+  // Small dollar amounts or multipliers (ROI)
+  if (/roi|cost|spend|acv|pipeline|revenue/i.test(key)) {
+    return /roi/i.test(key) ? `${val}x` : fmtCurrency(val);
+  }
+  // Counts
+  return fmtNum(val);
+}
+
+function humanizeKey(key: string): string {
+  return key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
 /* ─── Intelligence Finding Card ───────────────────────────────────────────── */
 
 function IntelligenceFindingCard({ finding }: { finding: IntelFinding }) {
@@ -172,6 +193,10 @@ function IntelligenceFindingCard({ finding }: { finding: IntelFinding }) {
         ? "border-l-amber-500"
         : "border-l-emerald-500";
 
+  const evidenceEntries = Object.entries(finding.evidence).filter(
+    ([, v]) => v !== null && v !== undefined
+  );
+
   return (
     <div
       className={`bg-zinc-900/50 border border-zinc-800 rounded-xl transition-all cursor-pointer hover:border-zinc-700 border-l-[3px] ${borderColor}`}
@@ -182,22 +207,13 @@ function IntelligenceFindingCard({ finding }: { finding: IntelFinding }) {
         <span className="text-sm font-medium text-zinc-200 flex-1 truncate">
           {finding.title}
         </span>
-        {/* Evidence preview when collapsed */}
-        {!open && finding.evidence.current != null && finding.evidence.target != null && (
+        {/* Compact evidence preview when collapsed */}
+        {!open && evidenceEntries.length > 0 && (
           <span className="font-mono text-xs text-zinc-500 hidden sm:inline">
-            {finding.evidence.current < 1
-              ? fmtPct(finding.evidence.current, 1)
-              : finding.evidence.current > 10000
-                ? fmtCurrency(finding.evidence.current, true)
-                : `$${finding.evidence.current.toFixed(0)}`}
-            <span className="text-zinc-600">
-              {" "}/ target{" "}
-              {finding.evidence.target < 1
-                ? fmtPct(finding.evidence.target)
-                : finding.evidence.target > 10000
-                  ? fmtCurrency(finding.evidence.target, true)
-                  : `$${finding.evidence.target.toFixed(0)}`}
-            </span>
+            {evidenceEntries
+              .slice(0, 2)
+              .map(([k, v]) => fmtEvidence(k, v))
+              .join(" · ")}
           </span>
         )}
         <ChevronDown
@@ -207,43 +223,22 @@ function IntelligenceFindingCard({ finding }: { finding: IntelFinding }) {
       </div>
       {open && (
         <div className="px-4 pb-4 space-y-3 border-t border-zinc-800/50 pt-3">
-          {/* Insight — the "why", not just the "what" */}
+          {/* Insight — the editorial "why" */}
           <p className="text-[13px] text-zinc-300 leading-relaxed">
             {finding.insight}
           </p>
-          {/* Evidence bar */}
-          {finding.evidence.current != null && finding.evidence.target != null && (
-            <div className="flex items-center gap-3 text-xs font-mono">
-              <span className="text-zinc-500">Current:</span>
-              <span className="text-white">
-                {finding.evidence.current > 10000
-                  ? fmtCurrency(finding.evidence.current, true)
-                  : finding.evidence.current < 1
-                    ? fmtPct(finding.evidence.current, 1)
-                    : `$${finding.evidence.current.toFixed(0)}`}
-              </span>
-              <span className="text-zinc-700">|</span>
-              <span className="text-zinc-500">Target:</span>
-              <span className="text-zinc-400">
-                {finding.evidence.target > 10000
-                  ? fmtCurrency(finding.evidence.target, true)
-                  : finding.evidence.target < 1
-                    ? fmtPct(finding.evidence.target)
-                    : `$${finding.evidence.target.toFixed(0)}`}
-              </span>
-              {finding.evidence.prior != null && (
-                <>
-                  <span className="text-zinc-700">|</span>
-                  <span className="text-zinc-500">Prior:</span>
-                  <span className="text-zinc-400">
-                    {finding.evidence.prior > 10000
-                      ? fmtCurrency(finding.evidence.prior, true)
-                      : finding.evidence.prior < 1
-                        ? fmtPct(finding.evidence.prior, 1)
-                        : `$${finding.evidence.prior.toFixed(0)}`}
-                  </span>
-                </>
-              )}
+          {/* Evidence tags */}
+          {evidenceEntries.length > 0 && (
+            <div className="flex flex-wrap items-center gap-2">
+              {evidenceEntries.map(([k, v]) => (
+                <span
+                  key={k}
+                  className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-zinc-800/70 text-[11px] font-mono"
+                >
+                  <span className="text-zinc-500">{humanizeKey(k)}:</span>
+                  <span className="text-zinc-200">{fmtEvidence(k, v)}</span>
+                </span>
+              ))}
             </div>
           )}
           {/* Action with expected impact */}

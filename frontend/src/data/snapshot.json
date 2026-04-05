@@ -656,9 +656,9 @@
       }
     ],
     "avg_lead_score": {
-      "current": null,
-      "prior": null,
-      "change_pct": null
+      "current": 49.9,
+      "prior": 50.8,
+      "change_pct": -0.0177
     }
   },
   "contribution": {
@@ -736,7 +736,7 @@
         "_query": {
           "table": "fct_multi_touch_attribution + dim_opportunities",
           "filters": {
-            "opp_created_date_gte": "2025-10-01",
+            "opp_created_gte": "2025-10-01",
             "is_first_touch": true,
             "channel_id": "CH-011"
           },
@@ -752,7 +752,7 @@
         "_query": {
           "table": "fct_multi_touch_attribution + dim_opportunities",
           "filters": {
-            "opp_created_date_gte": "2025-10-01",
+            "opp_created_gte": "2025-10-01",
             "is_first_touch": true,
             "channel_id": "CH-005"
           },
@@ -768,7 +768,7 @@
         "_query": {
           "table": "fct_multi_touch_attribution + dim_opportunities",
           "filters": {
-            "opp_created_date_gte": "2025-10-01",
+            "opp_created_gte": "2025-10-01",
             "is_first_touch": true,
             "channel_id": "CH-007"
           },
@@ -784,7 +784,7 @@
         "_query": {
           "table": "fct_multi_touch_attribution + dim_opportunities",
           "filters": {
-            "opp_created_date_gte": "2025-10-01",
+            "opp_created_gte": "2025-10-01",
             "is_first_touch": true,
             "channel_id": "CH-006"
           },
@@ -800,7 +800,7 @@
         "_query": {
           "table": "fct_multi_touch_attribution + dim_opportunities",
           "filters": {
-            "opp_created_date_gte": "2025-10-01",
+            "opp_created_gte": "2025-10-01",
             "is_first_touch": true,
             "channel_id": "CH-001"
           },
@@ -816,7 +816,7 @@
         "_query": {
           "table": "fct_multi_touch_attribution + dim_opportunities",
           "filters": {
-            "opp_created_date_gte": "2025-10-01",
+            "opp_created_gte": "2025-10-01",
             "is_first_touch": true,
             "channel_id": "CH-008"
           },
@@ -832,7 +832,7 @@
         "_query": {
           "table": "fct_multi_touch_attribution + dim_opportunities",
           "filters": {
-            "opp_created_date_gte": "2025-10-01",
+            "opp_created_gte": "2025-10-01",
             "is_first_touch": true,
             "channel_id": "CH-009"
           },
@@ -848,7 +848,7 @@
         "_query": {
           "table": "fct_multi_touch_attribution + dim_opportunities",
           "filters": {
-            "opp_created_date_gte": "2025-10-01",
+            "opp_created_gte": "2025-10-01",
             "is_first_touch": true,
             "channel_id": "CH-002"
           },
@@ -864,7 +864,7 @@
         "_query": {
           "table": "fct_multi_touch_attribution + dim_opportunities",
           "filters": {
-            "opp_created_date_gte": "2025-10-01",
+            "opp_created_gte": "2025-10-01",
             "is_first_touch": true,
             "channel_id": "CH-003"
           },
@@ -880,7 +880,7 @@
         "_query": {
           "table": "fct_multi_touch_attribution + dim_opportunities",
           "filters": {
-            "opp_created_date_gte": "2025-10-01",
+            "opp_created_gte": "2025-10-01",
             "is_first_touch": true,
             "channel_id": "CH-010"
           },
@@ -899,6 +899,589 @@
       },
       "aggregation": "sum(acv_usd)",
       "row_count": 46
+    }
+  },
+  "channel_economics": [
+    {
+      "channel": "Partner/Channel",
+      "channel_id": "CH-011",
+      "is_paid": false,
+      "spend_usd": 0,
+      "sessions": 2451,
+      "ad_conversions": 0,
+      "cpl": null,
+      "opps": 6,
+      "cost_per_opp": null,
+      "pipeline_usd": 861086.0,
+      "pipeline_roi": null,
+      "avg_opp_acv": 143514.33,
+      "cost_per_pipeline_dollar": null,
+      "session_to_opp_rate": 0.002448,
+      "won_count": 0,
+      "won_acv_usd": 0.0,
+      "segment_mix": [
+        {
+          "segment": "Strategic",
+          "opps": 1,
+          "pipeline_usd": 668762.72,
+          "pct_of_channel_pipeline": 0.777
+        },
+        {
+          "segment": "Mid-Market",
+          "opps": 2,
+          "pipeline_usd": 150162.21,
+          "pct_of_channel_pipeline": 0.174
+        },
+        {
+          "segment": "SMB",
+          "opps": 3,
+          "pipeline_usd": 42161.07,
+          "pct_of_channel_pipeline": 0.049
+        }
+      ],
+      "_query": {
+        "table": "fct_daily_ad_spend + fct_daily_web_traffic + fct_multi_touch_attribution + dim_opportunities",
+        "filters": {
+          "qtd_start": "2025-10-01",
+          "qtd_end": "2025-10-19",
+          "channel_id": "CH-011"
+        },
+        "aggregation": "full funnel: spend, sessions, opps, pipeline, ROI",
+        "row_count": 6
+      }
+    },
+    {
+      "channel": "Referral",
+      "channel_id": "CH-005",
+      "is_paid": false,
+      "spend_usd": 0,
+      "sessions": 2837,
+      "ad_conversions": 0,
+      "cpl": null,
+      "opps": 4,
+      "cost_per_opp": null,
+      "pipeline_usd": 785267.91,
+      "pipeline_roi": null,
+      "avg_opp_acv": 196316.98,
+      "cost_per_pipeline_dollar": null,
+      "session_to_opp_rate": 0.00141,
+      "won_count": 0,
+      "won_acv_usd": 0.0,
+      "segment_mix": [
+        {
+          "segment": "Strategic",
+          "opps": 1,
+          "pipeline_usd": 639172.71,
+          "pct_of_channel_pipeline": 0.814
+        },
+        {
+          "segment": "Mid-Market",
+          "opps": 2,
+          "pipeline_usd": 136560.62,
+          "pct_of_channel_pipeline": 0.174
+        },
+        {
+          "segment": "SMB",
+          "opps": 1,
+          "pipeline_usd": 9534.58,
+          "pct_of_channel_pipeline": 0.012
+        }
+      ],
+      "_query": {
+        "table": "fct_daily_ad_spend + fct_daily_web_traffic + fct_multi_touch_attribution + dim_opportunities",
+        "filters": {
+          "qtd_start": "2025-10-01",
+          "qtd_end": "2025-10-19",
+          "channel_id": "CH-005"
+        },
+        "aggregation": "full funnel: spend, sessions, opps, pipeline, ROI",
+        "row_count": 4
+      }
+    },
+    {
+      "channel": "Events/Conferences",
+      "channel_id": "CH-007",
+      "is_paid": true,
+      "spend_usd": 37032.37,
+      "sessions": 1785,
+      "ad_conversions": 316,
+      "cpl": 117.19,
+      "opps": 6,
+      "cost_per_opp": 6172.06,
+      "pipeline_usd": 677418.03,
+      "pipeline_roi": 18.29,
+      "avg_opp_acv": 112903.01,
+      "cost_per_pipeline_dollar": 0.0547,
+      "session_to_opp_rate": 0.003361,
+      "won_count": 0,
+      "won_acv_usd": 0.0,
+      "segment_mix": [
+        {
+          "segment": "Enterprise",
+          "opps": 4,
+          "pipeline_usd": 641386.69,
+          "pct_of_channel_pipeline": 0.947
+        },
+        {
+          "segment": "SMB",
+          "opps": 2,
+          "pipeline_usd": 36031.34,
+          "pct_of_channel_pipeline": 0.053
+        }
+      ],
+      "_query": {
+        "table": "fct_daily_ad_spend + fct_daily_web_traffic + fct_multi_touch_attribution + dim_opportunities",
+        "filters": {
+          "qtd_start": "2025-10-01",
+          "qtd_end": "2025-10-19",
+          "channel_id": "CH-007"
+        },
+        "aggregation": "full funnel: spend, sessions, opps, pipeline, ROI",
+        "row_count": 6
+      }
+    },
+    {
+      "channel": "Content Syndication",
+      "channel_id": "CH-006",
+      "is_paid": true,
+      "spend_usd": 24504.16,
+      "sessions": 2880,
+      "ad_conversions": 183,
+      "cpl": 133.9,
+      "opps": 2,
+      "cost_per_opp": 12252.08,
+      "pipeline_usd": 385573.97,
+      "pipeline_roi": 15.74,
+      "avg_opp_acv": 192786.98,
+      "cost_per_pipeline_dollar": 0.0636,
+      "session_to_opp_rate": 0.000694,
+      "won_count": 0,
+      "won_acv_usd": 0.0,
+      "segment_mix": [
+        {
+          "segment": "Enterprise",
+          "opps": 1,
+          "pipeline_usd": 258180.56,
+          "pct_of_channel_pipeline": 0.67
+        },
+        {
+          "segment": "Mid-Market",
+          "opps": 1,
+          "pipeline_usd": 127393.41,
+          "pct_of_channel_pipeline": 0.33
+        }
+      ],
+      "_query": {
+        "table": "fct_daily_ad_spend + fct_daily_web_traffic + fct_multi_touch_attribution + dim_opportunities",
+        "filters": {
+          "qtd_start": "2025-10-01",
+          "qtd_end": "2025-10-19",
+          "channel_id": "CH-006"
+        },
+        "aggregation": "full funnel: spend, sessions, opps, pipeline, ROI",
+        "row_count": 2
+      }
+    },
+    {
+      "channel": "Paid Search",
+      "channel_id": "CH-001",
+      "is_paid": true,
+      "spend_usd": 96705.54,
+      "sessions": 22462,
+      "ad_conversions": 689,
+      "cpl": 140.36,
+      "opps": 4,
+      "cost_per_opp": 24176.38,
+      "pipeline_usd": 363567.7,
+      "pipeline_roi": 3.76,
+      "avg_opp_acv": 90891.93,
+      "cost_per_pipeline_dollar": 0.266,
+      "session_to_opp_rate": 0.000178,
+      "won_count": 0,
+      "won_acv_usd": 0.0,
+      "segment_mix": [
+        {
+          "segment": "Enterprise",
+          "opps": 1,
+          "pipeline_usd": 238524.7,
+          "pct_of_channel_pipeline": 0.656
+        },
+        {
+          "segment": "Mid-Market",
+          "opps": 1,
+          "pipeline_usd": 91995.05,
+          "pct_of_channel_pipeline": 0.253
+        },
+        {
+          "segment": "SMB",
+          "opps": 2,
+          "pipeline_usd": 33047.95,
+          "pct_of_channel_pipeline": 0.091
+        }
+      ],
+      "_query": {
+        "table": "fct_daily_ad_spend + fct_daily_web_traffic + fct_multi_touch_attribution + dim_opportunities",
+        "filters": {
+          "qtd_start": "2025-10-01",
+          "qtd_end": "2025-10-19",
+          "channel_id": "CH-001"
+        },
+        "aggregation": "full funnel: spend, sessions, opps, pipeline, ROI",
+        "row_count": 4
+      }
+    },
+    {
+      "channel": "Programmatic/ABM Display",
+      "channel_id": "CH-008",
+      "is_paid": true,
+      "spend_usd": 19016.63,
+      "sessions": 10409,
+      "ad_conversions": 127,
+      "cpl": 149.74,
+      "opps": 4,
+      "cost_per_opp": 4754.16,
+      "pipeline_usd": 330665.68,
+      "pipeline_roi": 17.39,
+      "avg_opp_acv": 82666.42,
+      "cost_per_pipeline_dollar": 0.0575,
+      "session_to_opp_rate": 0.000384,
+      "won_count": 1,
+      "won_acv_usd": 62862.5,
+      "segment_mix": [
+        {
+          "segment": "Enterprise",
+          "opps": 1,
+          "pipeline_usd": 188689.78,
+          "pct_of_channel_pipeline": 0.571
+        },
+        {
+          "segment": "Mid-Market",
+          "opps": 2,
+          "pipeline_usd": 130674.68,
+          "pct_of_channel_pipeline": 0.395
+        },
+        {
+          "segment": "SMB",
+          "opps": 1,
+          "pipeline_usd": 11301.22,
+          "pct_of_channel_pipeline": 0.034
+        }
+      ],
+      "_query": {
+        "table": "fct_daily_ad_spend + fct_daily_web_traffic + fct_multi_touch_attribution + dim_opportunities",
+        "filters": {
+          "qtd_start": "2025-10-01",
+          "qtd_end": "2025-10-19",
+          "channel_id": "CH-008"
+        },
+        "aggregation": "full funnel: spend, sessions, opps, pipeline, ROI",
+        "row_count": 4
+      }
+    },
+    {
+      "channel": "AI Search",
+      "channel_id": "CH-009",
+      "is_paid": false,
+      "spend_usd": 0,
+      "sessions": 0,
+      "ad_conversions": 0,
+      "cpl": null,
+      "opps": 6,
+      "cost_per_opp": null,
+      "pipeline_usd": 329608.42,
+      "pipeline_roi": null,
+      "avg_opp_acv": 54934.74,
+      "cost_per_pipeline_dollar": null,
+      "session_to_opp_rate": null,
+      "won_count": 3,
+      "won_acv_usd": 85461.31,
+      "segment_mix": [
+        {
+          "segment": "Enterprise",
+          "opps": 1,
+          "pipeline_usd": 222721.01,
+          "pct_of_channel_pipeline": 0.676
+        },
+        {
+          "segment": "Mid-Market",
+          "opps": 1,
+          "pipeline_usd": 61997.13,
+          "pct_of_channel_pipeline": 0.188
+        },
+        {
+          "segment": "SMB",
+          "opps": 4,
+          "pipeline_usd": 44890.28,
+          "pct_of_channel_pipeline": 0.136
+        }
+      ],
+      "_query": {
+        "table": "fct_daily_ad_spend + fct_daily_web_traffic + fct_multi_touch_attribution + dim_opportunities",
+        "filters": {
+          "qtd_start": "2025-10-01",
+          "qtd_end": "2025-10-19",
+          "channel_id": "CH-009"
+        },
+        "aggregation": "full funnel: spend, sessions, opps, pipeline, ROI",
+        "row_count": 6
+      }
+    },
+    {
+      "channel": "LinkedIn Ads",
+      "channel_id": "CH-002",
+      "is_paid": true,
+      "spend_usd": 76200.8,
+      "sessions": 14508,
+      "ad_conversions": 659,
+      "cpl": 115.63,
+      "opps": 8,
+      "cost_per_opp": 9525.1,
+      "pipeline_usd": 260290.6,
+      "pipeline_roi": 3.42,
+      "avg_opp_acv": 32536.33,
+      "cost_per_pipeline_dollar": 0.2928,
+      "session_to_opp_rate": 0.000551,
+      "won_count": 3,
+      "won_acv_usd": 193052.54,
+      "segment_mix": [
+        {
+          "segment": "Mid-Market",
+          "opps": 3,
+          "pipeline_usd": 193052.54,
+          "pct_of_channel_pipeline": 0.742
+        },
+        {
+          "segment": "SMB",
+          "opps": 5,
+          "pipeline_usd": 67238.06,
+          "pct_of_channel_pipeline": 0.258
+        }
+      ],
+      "_query": {
+        "table": "fct_daily_ad_spend + fct_daily_web_traffic + fct_multi_touch_attribution + dim_opportunities",
+        "filters": {
+          "qtd_start": "2025-10-01",
+          "qtd_end": "2025-10-19",
+          "channel_id": "CH-002"
+        },
+        "aggregation": "full funnel: spend, sessions, opps, pipeline, ROI",
+        "row_count": 8
+      }
+    },
+    {
+      "channel": "Organic Search",
+      "channel_id": "CH-003",
+      "is_paid": false,
+      "spend_usd": 0,
+      "sessions": 11169,
+      "ad_conversions": 0,
+      "cpl": null,
+      "opps": 4,
+      "cost_per_opp": null,
+      "pipeline_usd": 172109.33,
+      "pipeline_roi": null,
+      "avg_opp_acv": 43027.33,
+      "cost_per_pipeline_dollar": null,
+      "session_to_opp_rate": 0.000358,
+      "won_count": 2,
+      "won_acv_usd": 94413.89,
+      "segment_mix": [
+        {
+          "segment": "Mid-Market",
+          "opps": 2,
+          "pipeline_usd": 151435.8,
+          "pct_of_channel_pipeline": 0.88
+        },
+        {
+          "segment": "SMB",
+          "opps": 2,
+          "pipeline_usd": 20673.53,
+          "pct_of_channel_pipeline": 0.12
+        }
+      ],
+      "_query": {
+        "table": "fct_daily_ad_spend + fct_daily_web_traffic + fct_multi_touch_attribution + dim_opportunities",
+        "filters": {
+          "qtd_start": "2025-10-01",
+          "qtd_end": "2025-10-19",
+          "channel_id": "CH-003"
+        },
+        "aggregation": "full funnel: spend, sessions, opps, pipeline, ROI",
+        "row_count": 4
+      }
+    },
+    {
+      "channel": "Outbound SDR",
+      "channel_id": "CH-010",
+      "is_paid": false,
+      "spend_usd": 0,
+      "sessions": 1731,
+      "ad_conversions": 0,
+      "cpl": null,
+      "opps": 2,
+      "cost_per_opp": null,
+      "pipeline_usd": 32403.03,
+      "pipeline_roi": null,
+      "avg_opp_acv": 16201.51,
+      "cost_per_pipeline_dollar": null,
+      "session_to_opp_rate": 0.001155,
+      "won_count": 2,
+      "won_acv_usd": 32403.03,
+      "segment_mix": [
+        {
+          "segment": "SMB",
+          "opps": 2,
+          "pipeline_usd": 32403.03,
+          "pct_of_channel_pipeline": 1.0
+        }
+      ],
+      "_query": {
+        "table": "fct_daily_ad_spend + fct_daily_web_traffic + fct_multi_touch_attribution + dim_opportunities",
+        "filters": {
+          "qtd_start": "2025-10-01",
+          "qtd_end": "2025-10-19",
+          "channel_id": "CH-010"
+        },
+        "aggregation": "full funnel: spend, sessions, opps, pipeline, ROI",
+        "row_count": 2
+      }
+    },
+    {
+      "channel": "Direct",
+      "channel_id": "CH-004",
+      "is_paid": false,
+      "spend_usd": 0,
+      "sessions": 8823,
+      "ad_conversions": 0,
+      "cpl": null,
+      "opps": 0,
+      "cost_per_opp": null,
+      "pipeline_usd": 0,
+      "pipeline_roi": null,
+      "avg_opp_acv": null,
+      "cost_per_pipeline_dollar": null,
+      "session_to_opp_rate": 0.0,
+      "won_count": 0,
+      "won_acv_usd": 0.0,
+      "segment_mix": [],
+      "_query": {
+        "table": "fct_daily_ad_spend + fct_daily_web_traffic + fct_multi_touch_attribution + dim_opportunities",
+        "filters": {
+          "qtd_start": "2025-10-01",
+          "qtd_end": "2025-10-19",
+          "channel_id": "CH-004"
+        },
+        "aggregation": "full funnel: spend, sessions, opps, pipeline, ROI",
+        "row_count": 0
+      }
+    }
+  ],
+  "pipeline_trajectory": {
+    "weekly_velocity": [
+      {
+        "week_start": "2025-09-29",
+        "opps": 11,
+        "pipeline_usd": 610856.71,
+        "trailing_3wk_avg": null
+      },
+      {
+        "week_start": "2025-10-06",
+        "opps": 12,
+        "pipeline_usd": 1519739.51,
+        "trailing_3wk_avg": null
+      },
+      {
+        "week_start": "2025-10-13",
+        "opps": 23,
+        "pipeline_usd": 2067394.45,
+        "trailing_3wk_avg": 1399330.22
+      }
+    ],
+    "actual_qtd": 4197990.67,
+    "target": 28000000,
+    "pacing_pct": 0.1499,
+    "weeks_elapsed": 3,
+    "weeks_remaining": 10,
+    "trailing_3wk_avg": 1399330.22,
+    "velocity_slope_per_week": 728268.87,
+    "velocity_trend": "accelerating",
+    "projection_trailing_avg": 18191292.9,
+    "projection_linear": 65528769.45,
+    "open_pipeline": {
+      "total_usd": 2650461.54,
+      "closeable_usd": 638585.97,
+      "closeable_pct": 0.241,
+      "by_stage": [
+        {
+          "stage": "Discovery",
+          "opps": 2,
+          "pipeline_usd": 891483.73,
+          "closeable_this_quarter": false
+        },
+        {
+          "stage": "Qualification",
+          "opps": 2,
+          "pipeline_usd": 259518.92,
+          "closeable_this_quarter": false
+        },
+        {
+          "stage": "Demo/Evaluation",
+          "opps": 2,
+          "pipeline_usd": 860872.92,
+          "closeable_this_quarter": false
+        },
+        {
+          "stage": "Proposal/Negotiation",
+          "opps": 2,
+          "pipeline_usd": 211371.49,
+          "closeable_this_quarter": true
+        },
+        {
+          "stage": "Security Review",
+          "opps": 1,
+          "pipeline_usd": 238524.7,
+          "closeable_this_quarter": true
+        },
+        {
+          "stage": "Procurement/Legal",
+          "opps": 1,
+          "pipeline_usd": 188689.78,
+          "closeable_this_quarter": true
+        }
+      ]
+    },
+    "_query": {
+      "table": "dim_opportunities",
+      "filters": {
+        "created_date_gte": "2025-10-01",
+        "created_date_lte": "2025-10-19"
+      },
+      "aggregation": "weekly pipeline velocity + stage breakdown",
+      "row_count": 46
+    }
+  },
+  "sdr_capacity": {
+    "active_sdrs": 29,
+    "meetings_booked_mtd": 507,
+    "meetings_held_mtd": 211,
+    "meetings_per_sdr_per_day": 1.34,
+    "estimated_daily_capacity": 3.0,
+    "utilization_pct": 0.447,
+    "tier1_accounts_total": 1242,
+    "tier1_with_intent_qtd": 787,
+    "tier1_high_surging_intent": 404,
+    "_query": {
+      "table": "dim_sales_reps + fct_sales_activity + fct_account_intent_signals + dim_accounts",
+      "filters": {
+        "qtd_start": "2025-10-01",
+        "sdr_roles": [
+          "SDR",
+          "BDR"
+        ],
+        "icp_tier": "Tier 1"
+      },
+      "aggregation": "SDR capacity + intent coverage",
+      "row_count": 29
     }
   },
   "targets": {

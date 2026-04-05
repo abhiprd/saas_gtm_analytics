@@ -20,11 +20,7 @@ export interface IntelFinding {
   title: string;
   insight: string;
   action: string;
-  evidence: {
-    current: number | null;
-    target: number | null;
-    prior: number | null;
-  };
+  evidence: Record<string, number | string | null>;
 }
 
 export interface DomainIntelligence {
